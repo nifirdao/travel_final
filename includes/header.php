@@ -57,15 +57,15 @@ https://templatemo.com/tm-580-woox-travel
             <div class="col-12">
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
+                    <a href="index.php" class="logo">
                         <img src="assets/images/logos.png" alt="" width="150" height="50">
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                      <li><a href="index.html" class="active">Home</a></li>
-                      <li><a href="about.html">About</a></li>
-                      <li><a href="deals.html">Deals</a></li>
+                      <li><a href="index.php" class="active">Home</a></li>
+                      <li><a href="about.php">About</a></li>
+                      <li><a href="recommendation.php">Recommendation</a></li>
                       <?php if(isset($_SESSION['username'])) :?> 
                         <li class="nav-item dropdown">
                           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
