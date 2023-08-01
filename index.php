@@ -6,7 +6,6 @@
       <input type="radio" id="banner1" class="sec-1-input" name="banner" checked>
       <input type="radio" id="banner2" class="sec-1-input" name="banner">
       <input type="radio" id="banner3" class="sec-1-input" name="banner">
-      <input type="radio" id="banner4" class="sec-1-input" name="banner">
       <div class="slider">
         <div id="top-banner-1" class="banner">
           <div class="banner-inner-wrapper header-text">
