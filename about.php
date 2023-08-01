@@ -15,10 +15,7 @@ $result = mysqli_query($con, $sql);
 
 
 
-<body>
-  <!-- ... ส่วนที่เหลือเป็นเหมือนเดิม ... -->
-
-  <main>
+<main>
   <section class="places-container">
     <?php
     while ($row = mysqli_fetch_assoc($result)) {
@@ -30,7 +27,7 @@ $result = mysqli_query($con, $sql);
       // แสดงข้อมูลในรูปแบบที่ต้องการ
       echo '<div class="place">';
       echo '<div class="place-img-box">';
-      echo '<img src="' . $p_img . '" alt="' . $p_name . '">';
+      echo '<img src="data:image/jpeg;base64,' . base64_encode($p_img) . '" alt="' . $p_name . '">';
       echo '</div>';
       echo '<div class="place-info">';
       echo '<h3>' . $p_name . '</h3>';
@@ -49,7 +46,7 @@ $result = mysqli_query($con, $sql);
     /* เพิ่ม CSS เพื่อกำหนดการจัดวางเรียงกันในแนวนอน */
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: center; 
     gap: 20px; /* กำหนดระยะห่างระหว่างกรอบ */
   }
 
