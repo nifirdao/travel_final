@@ -1,0 +1,52 @@
+/* style.css */
+.reservation-form {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-form h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.reservation-form .form-group {
+    margin-bottom: 20px;
+}
+
+.reservation-form .form-label {
+    font-weight: bold;
+}
+
+.reservation-form .form-control {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+}
+
+.reservation-form .btn-primary {
+    width: 100%;
+}
+
+/* Additional styling for the card form in user.php */
+.card {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #f5f5f5;
+    border-bottom: none;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.card-body {
+    padding: 20px;
+}

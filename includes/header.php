@@ -3,6 +3,7 @@
   session_start();
   define("APPURL", "http://localhost/travel");
 
+  define("CITIESIMAGES", "C:\xampp\htdocs\travel\admin-panel\province-admins\images_province");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,31 +58,33 @@ https://templatemo.com/tm-580-woox-travel
             <div class="col-12">
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
-                    <a href="index.php" class="logo">
-                        <img src="assets/images/logos.png" alt="" width="150" height="50">
-                    </a>
+                    <a href="<?php echo APPURL; ?>/index.php" class="logo">
+                        <img src="<?php echo APPURL; ?>/assets/images/logos.png" alt="" width="150" height="50">
+                    </a>    
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                      <li><a href="index.php" class="active">Home</a></li>
-                      <li><a href="about.php">About</a></li>
-                      <li><a href="recommendation.php">Recommendation</a></li>
-                      <?php if(isset($_SESSION['username'])) :?> 
-                        <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          <?php echo $_SESSION['username']; ?>
-                          </a>
-                          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item text-black" href="#">Action</a></li>
-                            <li><a class="dropdown-item text-black" href="#">Another action</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/auth/logout.php">logout</a></li>
-                          </ul>
-                        </li>
-                      <?php else : ?>  
-                        <li><a href="<?php echo APPURL; ?>/auth/login.php">Login</a></li>
-                        <li><a href="<?php echo APPURL; ?>/auth/register.php">Register</a></li> 
-                      <?php endif; ?>
+                        <li><a href="<?php echo APPURL; ?>" class="active">Home</a></li>
+                        <li><a href="<?php echo APPURL; ?>/about1.php">About</a></li>
+                         <!-- ตรวจสอบโดย username ถ้ามี ให้แสดง recommen -->
+                        <?php if(isset($_SESSION['username'])) :?>
+                          <li><a href="<?php echo APPURL; ?>/recommendation.php">Recommendation</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <?php echo $_SESSION['username']; ?>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/users/user.php?id=<?php echo $_SESSION['user_id']; ?>">Edit Profile</a></li>
+                                    <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/users/history.php?id=<?php echo $_SESSION['user_id']; ?>">History</a></li>
+                                    <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/users/favourite.php?id=<?php echo $_SESSION['user_id']; ?>">Favourite</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/auth/logout.php">Logout</a></li>
+                                </ul>
+                            </li>
+                        <?php else : ?>  
+                            <li><a href="<?php echo APPURL; ?>/auth/login.php">Login</a></li>
+                            <li><a href="<?php echo APPURL; ?>/auth/register.php">Register</a></li>
+                        <?php endif; ?>
                     </ul>   
                     <a class='menu-trigger'>
                         <span>Menu</span>

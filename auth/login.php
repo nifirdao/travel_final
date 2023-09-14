@@ -1,6 +1,6 @@
 <?php require "../includes/header.php"; ?>
 <?php require "../config/config.php"; ?>
-<?php
+<?php 
 
 
   if(isset($_SESSION["username"])) {
@@ -9,11 +9,13 @@
   //take the data from the inputs
 
   if(isset($_POST['submit'])) {
-   
+    
+   // ตรวจสอบว่ามีข้อมูลที่กรอกในฟอร์มหรือไม่
     if(empty($_POST['email']) OR empty($_POST['password'])) {
-      echo "<script>alert('one or more input are empty');</script>";
+      echo "<script>alert('one or more input are empty');</script>"; //ถ้ามีค่าว่างอยู่ในฟิลด์ email หรือ password จะแสดง Alert แจ้งเตือน
+   
     } else {
-
+     // รับข้อมูลจากฟอร์ม
       $email = $_POST['email'];
       $password = $_POST['password'];
 
@@ -37,12 +39,12 @@
           header(("location: ".APPURL.""));
         } else {
           echo "<script>alert('email or password are wrong');</script>";
-
+          // ถ้ารหัสผ่านไม่ถูกต้อง แสดงข้อความแจ้งเตือน
         }
 
       } else {
         echo "<script>alert('email or password are wrong');</script>";
-
+        // ถ้าไม่พบ email ที่รับมาในฐานข้อมูล แสดงข้อความแจ้งเตือน
       }
 
 
@@ -89,4 +91,4 @@
       </div>
     </div>
   </div>
-<?php require "../includes/footer.php"; ?>
+  <?php require "../includes/footer.php"; ?>

@@ -1,16 +1,14 @@
-<?php
-include('header.php');
+<?php require "includes/header.php"; ?>
+<?php require "config/config.php"; ?>
 
 
-?>
 
 <!DOCTYPE html>
 
 <head>
 
 </head>
+<html>
 
 
-
-
-<?php include('footer.php'); ?>
+<?php require "includes/footer.php"; ?>

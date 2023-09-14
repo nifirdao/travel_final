@@ -1,14 +1,31 @@
+<?php require "includes/header.php"; ?>
+<?php require "config/config.php"; ?>
+<?php require "ConDb.php"; ?>
 
-<?php
-include('header.php');
+<?php 
 
-include('ConDb.php');
+$province_id = isset($_GET['province_id']) ? $_GET['province_id'] : null;
 
-// คำสั่ง SQL ในการดึงข้อมูลที่ต้องการจากตาราง tbl_product
-$sql = "SELECT p_name, p_detail, p_img FROM tbl_product WHERE type_id IN (1, 2, 3)";
-$result = mysqli_query($con, $sql);
+// ตรวจสอบค่า province_id และแสดงข้อมูลตามจังหวัดที่เลือก
+if ($province_id == 1) {
+    // แสดงข้อมูลสำหรับจังหวัดที่มี province_id เป็น 1
+    $sql = "SELECT attrac_name, attrac_detail, attrac_img FROM tbl_attraction WHERE province_id = 1";
+} elseif ($province_id == 2) {
+    // แสดงข้อมูลสำหรับจังหวัดที่มี province_id เป็น 2
+    $sql = "SELECT attrac_name, attrac_detail, attrac_img FROM tbl_attraction WHERE province_id = 2";
+} elseif ($province_id == 3) {
+  // แสดงข้อมูลสำหรับจังหวัดที่มี province_id เป็น 2
+  $sql = "SELECT attrac_name, attrac_detail, attrac_img FROM tbl_attraction WHERE province_id = 3";
+}
+else {
+    // กรณีที่ไม่ระบุ province_id หรือไม่มีข้อมูล
+    echo "กรุณาเลือกจังหวัด";
+}
+
 
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,26 +35,38 @@ $result = mysqli_query($con, $sql);
 <main>
   <section class="places-container">
     <?php
-    while ($row = mysqli_fetch_assoc($result)) {
-      // ดึงข้อมูลจากแต่ละแถวในตาราง tbl_product
-      $p_name = $row['p_name'];
-      $p_detail = $row['p_detail'];
-      $p_img = $row['p_img'];
+    // ดำเนินการต่อไปเฉพาะเมื่อมีค่า $sql ถูกกำหนด (เมื่อระบุ province_id ที่ถูกต้อง)
+if (isset($sql)) {
+  $result = mysqli_query($con, $sql);
 
-      // แสดงข้อมูลในรูปแบบที่ต้องการ
-      echo '<div class="place">';
-      echo '<div class="place-img-box">';
-      echo '<img src="data:image/jpeg;base64,' . base64_encode($p_img) . '" alt="' . $p_name . '">';
-      echo '</div>';
-      echo '<div class="place-info">';
-      echo '<h3>' . $p_name . '</h3>';
-      echo '<p>' . $p_detail . '</p>';
-      echo '</div>';
-      echo '</div>';
+  if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        // ดึงข้อมูลจากแต่ละแถวในตาราง tbl_attraction
+        $attrac_name = $row['attrac_name'];
+        $attrac_detail = $row['attrac_detail'];
+        //$attrac_img = $row['attrac_img'];
+
+        // แสดงข้อมูลในรูปแบบที่ต้องการ
+        echo '<div class="place">';
+        echo '<div class="place-img-box">';
+        echo "<td align=center>"."<img src='http://localhost/travel/TestCode/backend/attrac_img/".$row["attrac_img"]."' width='100'>"."</td>";
+        echo '</div>';                                
+        echo '<div class="place-info">';
+        echo '<h3>' . $attrac_name . '</h3>';
+        echo '<p>' . $attrac_detail . '</p>';
+        echo '</div>';
+        echo '</div>';
     }
+} else {
+    // หากไม่มีข้อมูลจากคำสั่ง SQL
+    echo 'ไม่พบข้อมูล';
+}
+  }
     ?>
   </section>
 </main>
+
+
 
 <style>
   /* ... ส่วนที่เหมือนเดิม ... */
@@ -63,9 +92,9 @@ $result = mysqli_query($con, $sql);
   }
   
   .place h3 {
-    /* เปลี่ยนสีข้อความใน p_name ตามที่คุณต้องการ */
+    /* เปลี่ยนสีข้อความใน p_name ตามที่ต้องการ */
     color: #22B3C1; /* สีฟ้าทะเล */
-    /* หรือสามารถใช้รหัสสีหรือชื่อสีอื่น ๆ ได้เช่น #00ff00 (สีเขียว) หรือ blue (สีน้ำเงิน) */
+    /* หรือสามารถใช้รหัสสีหรือชื่อสีอื่น ๆ */
   }
 
   .place-img-box {
@@ -98,4 +127,4 @@ $result = mysqli_query($con, $sql);
 
 </html>
 
-<?php include('footer.php');
+<?php require "includes/footer.php"; ?>

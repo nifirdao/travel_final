@@ -1,8 +1,8 @@
 <?php
-$host = "localhost";
+$host = "localhost"; // ชื่อโฮสต์หรือที่อยู่ IP ของฐานข้อมูล MySQL
 $username = "root";
 $password = "";
-$dbname = "pro";
+$dbname = "travel"; // ชื่อฐานข้อมูลที่ต้องการเชื่อมต่อ
 
 $con = mysqli_connect($host, $username, $password, $dbname);
 if (!$con) {

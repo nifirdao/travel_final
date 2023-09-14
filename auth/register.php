@@ -1,38 +1,51 @@
 <?php require "../includes/header.php"; ?>
 <?php require "../config/config.php"; ?>
-<?php
-  
-  if(isset($_SESSION["username"])) {
-    header("location: ".APPURL."");
-  }
+<?php 
 
-  if (isset($_POST['submit'])) {
-    if (empty($_POST['username']) || empty($_POST['email']) || empty($_POST['password'])) {
-      echo "<script>alert('some input are empty');</script>";
-    } else {
-      
-      $username = $_POST['username'];
-      $email = $_POST['email'];
-      $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-      $birthdate = $_POST['birthdate'];
-      $gender = $_POST['gender'];
-  
-      $insert = $conn->prepare("INSERT INTO users (username, email, mypassword, birthdate, gender)
-       VALUES (:username, :email, :mypassword, :birthdate, :gender)");
-  
-      $insert->execute([
-        ":username" => $username,
-        ":email" => $email,
-        ":mypassword" => $password,
-        ":birthdate" => $birthdate,
-        ":gender" => $gender,
-      ]);
-  
-      header("location: login.php");
-    }
-  }
+if(isset($_SESSION["username"])) {
+  header("location: ".APPURL."");
+}
 
+if (isset($_POST['submit'])) {
+  if (empty($_POST['username']) || empty($_POST['email']) || empty($_POST['password'])) {
+    echo "<script>alert('some input are empty');</script>";
+  } else {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $birthdate = $_POST['birthdate'];
+    $gender = $_POST['gender'];
+
+    $insertUser = $conn->prepare("INSERT INTO users (username, email, mypassword, birthdate, gender)
+     VALUES (:username, :email, :mypassword, :birthdate, :gender)");
+
+    $insertUser->execute([
+      ":username" => $username,
+      ":email" => $email,
+      ":mypassword" => $password,
+      ":birthdate" => $birthdate,
+      ":gender" => $gender,
+    ]);
+
+    // // Insert user's category ratings
+    // $categories = ['C1', 'C2', 'C3', 'C4'];
+    // foreach ($categories as $category) {
+    //   if (isset($_POST[$category]) && is_numeric($_POST[$category])) {
+    //     $rating = intval($_POST[$category]);
+    //     $insertRating = $conn->prepare("INSERT INTO user_ratings (user_id, category_id, rating)
+    //     VALUES ((SELECT MAX(id) FROM users), :category, :rating)");
+    //     $insertRating->execute([
+    //       ":category" => $category,
+    //       ":rating" => $rating
+    //     ]);
+    //   }
+    // }
+
+    header("location: register_step2.php");
+  }
+}
 ?>
+
 
 
   <div class="reservation-form">
@@ -84,11 +97,42 @@
                 </fieldset>
               </div>
 
-              <div class="col-lg-12">                        
+         
+    
+    
+
+    
+          
+
+                  <!-- ปุ่มย้อนกลับอยู่ฝั่งซ้าย -->
+                  <div class="col-lg-6">
                   <fieldset>
-                      <button type="submit" name="submit" class="main-button">register</button>
+                    <button class="secondary-button" onclick="goBack()">ย้อนกลับ</button>
                   </fieldset>
-              </div>
+                </div>
+
+                <script>
+                function goBack() {
+                  //window.history.back();
+                  window.location.href = 'login.php';
+                }
+                </script>
+                    
+                <div class="col-lg-6">
+                  <!-- ปุ่มไปหน้าถัดไป -->
+                  <fieldset>
+                    <button type="button" class="main-button" onclick="goToNextStep()">ถัดไป</button>
+                  </fieldset>
+                </div>
+
+                <!-- ...โค้ดที่เหลือ... -->
+
+                <script>
+                function goToNextStep() {
+                  // ไปยังหน้า register_step2.php
+                  window.location.href = 'register_step2.php';
+                }
+                </script>
               
             </div>
           </form>
