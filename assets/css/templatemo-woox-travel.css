@@ -80,7 +80,7 @@ html, body {
   font-weight: 400;
   background-color: #fff;
   font-size: 16px;
-  -ms-text-size-adjust: 100%;
+  
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -370,12 +370,12 @@ Header Style
 }
 
 .header-area .main-nav .logo img {
-  width: 159px;
-  margin-top: 15px;
+  width: 140px;
+  margin-top: 11px;
 }
 
 .background-header .main-nav .logo img {
-  width: 159px;
+  width: 140px;
 }
 
 .header-area .main-nav .nav {
@@ -593,6 +593,7 @@ Header Style
     position: absolute;
     left: 30px;
     top: 15px;
+  
   }
   .background-header .main-nav .logo {
     top: 0px;
@@ -1137,7 +1138,7 @@ About Page Style
 
 .about-main-content {
   margin-top: 70px;
-  background-image: url(../images/about-content-bg.jpg);
+  background-image: url(../images/banner.png);
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1148,7 +1149,7 @@ About Page Style
 .blur-bg {
 	width: 100%;
   height: 100%;
-  background: url(../images/about-content-bg.jpg) no-repeat center center fixed;
+  background: url(../images/banner.png) no-repeat center center fixed;
   background-size: cover;
   filter: blur(8px) brightness(80%);
   position: absolute;
@@ -1196,6 +1197,7 @@ About Page Style
   position: relative;
   z-index: 2;
   padding: 0px 15%;
+  font-weight: bold;
 }
 
 .about-main-content .content .main-button {
@@ -1841,7 +1843,7 @@ Deals Page Style
 */
 
 .page-heading {
-  background-image: url(../images/heading-bg.jpg);
+  background-image: url(../images/banner.png);
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -1873,7 +1875,7 @@ Deals Page Style
 }
 
 .search-form #search-form {
-  background-color: #22b3c1;
+  /*background-color: #22b3c1; ลบแบคกราวออก*/ 
   border-bottom-left-radius: 23px;
   border-bottom-right-radius: 23px;
   padding: 35px 60px;

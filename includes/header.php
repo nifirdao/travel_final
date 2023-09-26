@@ -3,7 +3,6 @@
   session_start();
   define("APPURL", "http://localhost/travel");
 
-  define("CITIESIMAGES", "C:\xampp\htdocs\travel\admin-panel\province-admins\images_province");
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -1,6 +1,44 @@
 <?php require "includes/header.php"; ?>
 <?php require "config/config.php"; ?>
 <?php require "ConDb.php"; ?>
+<?php 
+
+  if(isset($_GET['province_id'])) {
+
+    $id = $_GET['province_id'];
+
+    $province = $conn->query("SELECT * FROM tbl_province WHERE province_id='$id'");
+    $province->execute();
+
+    $singleProvince = $province->fetch(PDO::FETCH_OBJ);
+
+
+
+
+}
+
+?>
+ <!-- ***** Main Banner Area Start ***** -->
+ <div class="about-main-content">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="content">
+            <div class="blur-bg"></div>
+            <h4>EXPLORE OUR PROVINCE</h4>
+            <div class="line-dec"></div>
+            <h2>Welcome To <?php echo $singleProvince->province_name; ?></h2>
+            <p>
+            <?php echo $singleProvince->province_description; ?>
+            </p>
+            <div class="main-button">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Main Banner Area End ***** -->
 
 <?php 
 
@@ -25,12 +63,12 @@ else {
 
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
-
+<head>
+  <link rel="stylesheet" type="text/css" href="css/styles_about.css">
+</head>
 
 <main>
   <section class="places-container">
@@ -66,8 +104,7 @@ if (isset($sql)) {
   </section>
 </main>
 
-
-
+<body>
 <style>
   /* ... ส่วนที่เหมือนเดิม ... */
 

@@ -1,0 +1,38 @@
+/* CSS สำหรับกล่องค้นหา */
+.search-container {
+    display: flex;
+    justify-content: center; /* ทำให้อยู่ตรงกลางแนวนอน */
+    align-items: center; /* ทำให้อยู่ตรงกลางแนวตั้ง */
+    
+    padding: 20px; /* ระยะห่างภายในกล่อง */
+  }
+  
+  .search-container form {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-container input[type="text"],
+  .search-container button[type="submit"] {
+    padding: 10px; /* ระยะห่างของ input และ button */
+    border: none; /* ไม่มีเส้นขอบ */
+    border-radius: 5px; /* มุมโค้งขอบ */
+    font-size: 16px; /* ขนาดตัวอักษร */
+  }
+  
+  .search-container input[type="text"] {
+    flex: 1; /* ขยายให้เต็มพื้นที่ */
+    margin-right: 10px; /* ระยะห่างขวา */
+  }
+  
+  .search-container button[type="submit"] {
+    background-color: #22b3c1; /* สีปุ่ม */
+    color: #fff; /* สีตัวอักษรในปุ่ม */
+    cursor: pointer; /* เป็นเครื่องมือที่ชี้ได้ */
+    transition: background-color 0.3s ease; /* เพิ่มเอฟเฟกต์การเปลี่ยนสี */
+  }
+  
+  .search-container button[type="submit"]:hover {
+    background-color: #168b98; /* เปลี่ยนสีเมื่อเม้าส์ hover */
+  }
+  
