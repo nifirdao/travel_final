@@ -72,10 +72,11 @@ https://templatemo.com/tm-580-woox-travel
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <?php echo $_SESSION['username']; ?>
                                 </a>
+                                <!-- เก็บในโฟลเดอรฺ user -->
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/users/user.php?id=<?php echo $_SESSION['user_id']; ?>">Edit Profile</a></li>
                                     <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/users/history.php?id=<?php echo $_SESSION['user_id']; ?>">History</a></li>
-                                    <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/users/favourite.php?id=<?php echo $_SESSION['user_id']; ?>">Favourite</a></li>
+                                    <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/users/history2.php?id=<?php echo $_SESSION['user_id']; ?>">Favourite</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/auth/logout.php">Logout</a></li>
                                 </ul>

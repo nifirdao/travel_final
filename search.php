@@ -1,32 +1,11 @@
-<?php require "includes/header.php"; ?>
-<?php require "config/config.php"; ?>
-<?php 
-
-if($_SERVER['REQUEST_METHOD'] == "POST") {
-
-    if(empty($_POST['Month_ID ']) OR empty($_POST['Typevisit_ID'])) {
-        echo "<script>alert('some inputs are empty');</script>";
-      } else {
-
-        $country_id = $_POST['country_id'];
-        $price = $_POST['price'];
-
-
-        $searchs = $conn->query("SELECT * FROM cities WHERE country_id = $country_id 
-        AND price < $price");
-        $searchs->execute();
-
-        $allSearchs = $searchs->fetchAll(PDO::FETCH_OBJ);
-
-
-      }
-
-} else {
-  header("location: index.php");
-}
-
+<?php
+require "includes/header.php";
+require "config/config.php";
+require "ConDb.php";
 
 ?>
+
+
 <!-- ***** Main Banner Area Start ***** -->
 
 <div class="about-main-content">

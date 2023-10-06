@@ -16,12 +16,13 @@ $result = mysqli_query($con, $query);
 <html lang="en">
 
 <head>
-  <!-- ... ต่อมาจากส่วนอื่น ๆ ... -->
+  <!-- ... ตกแต่งกล่องค้นหา ... -->
   <link rel="stylesheet" type="text/css" href="css/styles.css">
   <link rel="stylesheet" type="text/css" href="css/styles_about.css">
 </head>
 
 <main>
+   <!-- ... สร้างฟอร์มกล่องค้นหา ... -->
  <section class="search-container">
     <form action="" method="post">
       <input type="text" name="search" placeholder="ค้นหาชื่อสถานที่">
@@ -30,11 +31,14 @@ $result = mysqli_query($con, $query);
   </section>
   <section class="places-container">
     <?php
+    //เงื่อนไข ค้นหา
     if (isset($_POST['search'])) {
       $search = $_POST['search'];
       $query = "SELECT attrac_name, attrac_detail, attrac_img FROM tbl_attraction WHERE attrac_name LIKE '%$search%'";
       $result = mysqli_query($con, $query);
     }
+
+    
     if (mysqli_num_rows($result) > 0) {
    while($row = mysqli_fetch_array($result)) {
       // ดึงข้อมูลจากแต่ละแถวในตาราง tbl_actraction
@@ -42,7 +46,7 @@ $result = mysqli_query($con, $query);
       $attrac_detail = $row['attrac_detail'];
       //$attrac_img = $row['attrac_img'];  // นี่คือ URL หรือชื่อไฟล์รูปภาพ
 
-      // แสดงข้อมูลในรูปแบบที่ต้องการ
+      // แสดงข้อมูลในรูปแบบสถานที่ท่องเที่ยวที่ต้องการ
       echo '<div class="place">';
       echo '<div class="place-img-box">';
       echo "<td align=center>"."<img src='http://localhost/travel/TestCode/backend/attrac_img/".$row["attrac_img"]."' width='100'>"."</td>";

@@ -13,8 +13,6 @@
     $singleProvince = $province->fetch(PDO::FETCH_OBJ);
 
 
-
-
 }
 
 ?>
@@ -68,14 +66,32 @@ else {
 
 <head>
   <link rel="stylesheet" type="text/css" href="css/styles_about.css">
+    <!-- ... ตกแต่งกล่องค้นหา ... -->
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <link rel="stylesheet" type="text/css" href="css/styles_about.css">
 </head>
 
 <main>
+<section class="search-container">
+    <form action="" method="post">
+      <input type="text" name="search" placeholder="ค้นหาชื่อสถานที่">
+      <button type="submit">ค้นหา</button>
+    </form>
+  </section>
   <section class="places-container">
     <?php
+   
     // ดำเนินการต่อไปเฉพาะเมื่อมีค่า $sql ถูกกำหนด (เมื่อระบุ province_id ที่ถูกต้อง)
 if (isset($sql)) {
   $result = mysqli_query($con, $sql);
+
+  //เงื่อนไข ค้นหา
+  if (isset($_POST['search'])) {
+    $search = $_POST['search'];
+    $query = "SELECT attrac_name, attrac_detail, attrac_img FROM tbl_attraction WHERE attrac_name LIKE '%$search%'";
+    $result = mysqli_query($con, $query);
+  }
+
 
   if ($result && mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
@@ -99,7 +115,7 @@ if (isset($sql)) {
     // หากไม่มีข้อมูลจากคำสั่ง SQL
     echo 'ไม่พบข้อมูล';
 }
-  }
+}
     ?>
   </section>
 </main>

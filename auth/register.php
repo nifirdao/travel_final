@@ -27,21 +27,8 @@ if (isset($_POST['submit'])) {
       ":gender" => $gender,
     ]);
 
-    // // Insert user's category ratings
-    // $categories = ['C1', 'C2', 'C3', 'C4'];
-    // foreach ($categories as $category) {
-    //   if (isset($_POST[$category]) && is_numeric($_POST[$category])) {
-    //     $rating = intval($_POST[$category]);
-    //     $insertRating = $conn->prepare("INSERT INTO user_ratings (user_id, category_id, rating)
-    //     VALUES ((SELECT MAX(id) FROM users), :category, :rating)");
-    //     $insertRating->execute([
-    //       ":category" => $category,
-    //       ":rating" => $rating
-    //     ]);
-    //   }
-    // }
 
-    header("location: register_step2.php");
+    header("location: login.php");
   }
 }
 ?>
@@ -97,13 +84,7 @@ if (isset($_POST['submit'])) {
                 </fieldset>
               </div>
 
-         
-    
-    
-
-    
-          
-
+  
                   <!-- ปุ่มย้อนกลับอยู่ฝั่งซ้าย -->
                   <div class="col-lg-6">
                   <fieldset>
@@ -118,22 +99,13 @@ if (isset($_POST['submit'])) {
                 }
                 </script>
                     
-                <div class="col-lg-6">
-                  <!-- ปุ่มไปหน้าถัดไป -->
+                
+
+                <div class="col-lg-6">                        
                   <fieldset>
-                    <button type="button" class="main-button" onclick="goToNextStep()">ถัดไป</button>
+                      <button type="submit" name="submit" class="main-button">register</button>
                   </fieldset>
-                </div>
-
-                <!-- ...โค้ดที่เหลือ... -->
-
-                <script>
-                function goToNextStep() {
-                  // ไปยังหน้า register_step2.php
-                  window.location.href = 'register_step2.php';
-                }
-                </script>
-              
+              </div>
             </div>
           </form>
         </div>
