@@ -1,6 +1,7 @@
 <?php
 require "../includes/header.php";
 require "../config/config.php";
+require "../ConDb.php";
 
 // ตรวจสอบว่าผู้ใช้ไม่ได้ล็อกอิน ถ้าไม่ได้ล็อกอินให้เปลี่ยนเส้นทางไปหน้า APPURL หรือที่ต้องการ
 if (!isset($_SESSION["username"])) {
@@ -17,7 +18,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         isset($_POST["history"]) &&
         isset($_POST["entertainment"])
     ) {
-        try {
+        // ตรวจสอบคะแนนที่รับเข้ามาในฟอร์ม
+        $nature = intval($_POST["nature"]);
+        $culture = intval($_POST["culture"]);
+        $history = intval($_POST["history"]);
+        $entertainment = intval($_POST["entertainment"]);
+        
+        // ตรวจสอบว่าคะแนนไม่ซ้ำกันและอยู่ระหว่าง 1 ถึง 4
+        if (
+            $nature >= 1 && $nature <= 4 &&
+            $culture >= 1 && $culture <= 4 &&
+            $history >= 1 && $history <= 4 &&
+            $entertainment >= 1 && $entertainment <= 4 &&
+            $nature !== $culture && $nature !== $history && $nature !== $entertainment &&
+            $culture !== $history && $culture !== $entertainment &&
+            $history !== $entertainment
+        ) {
+            try {
+                $conn = new PDO("mysql:host=localhost;dbname=travel", "root", "");
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $conn->beginTransaction();
             $conn = new PDO("mysql:host=localhost;dbname=travel", "root", "");
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -69,13 +90,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             echo "<script>alert('บันทึกคะแนนสำเร็จ');</script>";
 
-            header("location: " . APPURL . ""); //ไว้ไปหน้า history2.php กรอกสถานที่ที่เคยไป
-            exit();
+
+            // เพิ่มโค้ดเพื่อเปลี่ยนเส้นทางไปยังหน้า "history2" หลังจากบันทึกคะแนน
+            echo "<script>window.location.href = '" . APPURL . "/users/history2.php?id=" . $_SESSION['user_id'] . "';</script>";
+            
         } catch (PDOException $e) {
             $conn->rollback();
             echo "Error: " . $e->getMessage();
         }
+    } else {
+        // แสดงคำเตือนถ้าคะแนนไม่ถูกต้องหรือซ้ำกัน
+        echo "<script>alert('กรุณาเลือกหรือใส่คะแนนให้อยู่ระหว่าง 1 ถึง 4 และไม่ซ้ำกัน');</script>";
     }
+}
 }
 ?>
 
@@ -87,38 +114,70 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>บันทึกคะแนน</title>
 </head>
 <body>
-    <div class="reservation-form">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <form id="reservation-form" name="gs" method="POST" action="history.php">
-                        <div class="col-md-12">
-                            <h5>คะแนนหมวดหมู่สถานที่</h5>
-                            <div class="form-group">
-                                <label for="nature">เที่ยวธรรมชาติ:</label>
-                                <input type="number" name="nature" class="form-control" min="1" max="4" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="culture">เรียนรู้วัฒนธรรม:</label>
-                                <input type="number" name="culture" class="form-control" min="1" max="4" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="history">ประวัติศาสตร์:</label>
-                                <input type="number" name="history" class="form-control" min="1" max="4" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="entertainment">กิจกรรมด้านบันเทิง:</label>
-                                <input type="number" name="entertainment" class="form-control" min="1" max="4" required>
+                <!-- ***** Main Banner Area Start ***** -->
+                <div class="about-main-content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="content">
+                                    <div class="blur-bg"></div>
+                                    <h2>RECOMMENDATION</h2>
+                                    <div class="line-dec"></div>
+                                    <h4>ป้อนข้อมูลเพื่อค้นหาสถานที่ท่องเที่ยวที่เหมาะสำหรับคุณ</h4>
+                                    
+                                    <div class="main-button"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary">บันทึกคะแนน</button>
-                        </div>
-                    </form>
+                    </div>
+                </div>
+                <!-- ***** Main Banner Area End ***** -->
+                <!-- นี่คือลูกศรที่ใช้เลื่อนลงข้างล่าง -->
+                <div class="col-md-12 text-center">
+                <p style=" color:  #22b3c1;" ><i class="fa fa-angle-double-down " aria-hidden="true"></i> กรุณาเลื่อนลงข้างล่างเพื่อทำการค้นหา</p>
+                </div>
+
+                
+        <div class="reservation-form">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form id="reservation-form" name="gs" method="POST" action="history.php">
+                            <div class="col-md-12">
+                            <div class="col-md-12 text-center"> <!-- เพิ่ม text-center เพื่อจัดให้อยู่ตรงกลาง -->
+                                <h5 style="font-style: italic; color: #22b3c1;">ลำดับหมวดหมู่สถานที่</h5> <!-- ตกแต่งตัวอักษรด้วย CSS -->
+                            </div><br/>
+                            <div class="col-md-12 text-center">
+                            <h6 style=" color:  #FF0000;">โปรดป้อนลำดับที่คุณสนใจในการท่องเที่ยว</h6>
+                            </div>
+                            <div class="main-button"></div>
+
+                                <div class="form-group">
+                                    <label for="nature">เที่ยวธรรมชาติ:</label>
+                                    <input type="number" name="nature" class="form-control" min="1" max="4" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="culture">เรียนรู้วัฒนธรรม:</label>
+                                    <input type="number" name="culture" class="form-control" min="1" max="4" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="history">ประวัติศาสตร์:</label>
+                                    <input type="number" name="history" class="form-control" min="1" max="4" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="entertainment">กิจกรรมด้านบันเทิง:</label>
+                                    <input type="number" name="entertainment" class="form-control" min="1" max="4" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary">บันทึกคะแนน</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </body>
 </html>
+
 <?php require "../includes/footer.php"; ?>

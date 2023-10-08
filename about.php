@@ -1,21 +1,29 @@
 <?php require "includes/header.php"; ?>
 <?php require "config/config.php"; ?>
 <?php require "ConDb.php"; ?>
+
 <?php 
+      if (isset($_GET['province_id'])) {
+          $id = $_GET['province_id'];
 
-  if(isset($_GET['province_id'])) {
+          $province = $conn->query("SELECT * FROM tbl_province WHERE province_id='$id'");
+          $province->execute();
 
-    $id = $_GET['province_id'];
+          $singleProvince = $province->fetch(PDO::FETCH_OBJ);
 
-    $province = $conn->query("SELECT * FROM tbl_province WHERE province_id='$id'");
-    $province->execute();
-
-    $singleProvince = $province->fetch(PDO::FETCH_OBJ);
-
-
-}
-
+          // เช็คว่าพบข้อมูลจังหวัดหรือไม่
+          if (!$singleProvince) {
+              // หากไม่พบข้อมูลจังหวัดที่ตรงเงื่อนไข
+              header("Location: 404.php");
+              exit;
+          }
+      } else {
+          // หากไม่มี province_id ที่ส่งมา
+          header("Location: 404.php");
+          exit;
+      }
 ?>
+
  <!-- ***** Main Banner Area Start ***** -->
  <div class="about-main-content">
     <div class="container">

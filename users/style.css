@@ -65,3 +65,240 @@
     font-weight: bold;
     margin-top: 5px;
 }
+
+
+ /*/////////////////////////////////////////////////////////////////////////////////*/
+  /* ... ตกหน้าแสดงสถานที่เที่ยวของการเลือก ... */
+
+  .places-container {
+    /* เพิ่ม CSS เพื่อกำหนดการจัดวางเรียงกันในแนวนอน */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    gap: 20px; /* กำหนดระยะห่างระหว่างกรอบ */
+  }
+
+  .place {
+    /* ... ส่วนที่เหมือนเดิม ... */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 300px; /* ปรับขนาดกรอบให้เหมาะสม */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* เพิ่มเงากรอบ */
+  }
+  
+  .place h3 {
+    /* เปลี่ยนสีข้อความใน p_name ตามที่ต้องการ */
+    color: #22B3C1; /* สีฟ้าทะเล */
+    /* หรือสามารถใช้รหัสสีหรือชื่อสีอื่น ๆ */
+  }
+
+  .place-img-box {
+    /* ... ส่วนที่เหมือนเดิม ... */
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 5px solid #ccc;
+    margin-bottom: 10px;
+  }
+
+  .place-img-box img {
+    /* ... ส่วนที่เหมือนเดิม ... */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+
+  .place-info {
+    /* ... ส่วนที่เหมือนเดิม ... */
+    text-align: center;
+  }
+
+  .places-container {
+    /* เพิ่ม CSS เพื่อกำหนดการจัดวางเรียงกันในแนวนอน */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    gap: 20px; /* กำหนดระยะห่างระหว่างกรอบ */
+  }
+
+  .place {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 300px; /* ปรับขนาดกรอบให้เหมาะสม */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* เพิ่มเงากรอบ */
+  }
+  
+  .place h3 {
+    /* เปลี่ยนสีข้อความใน p_name ตามที่ต้องการ */
+    color: #22B3C1; /* สีฟ้าทะเล */
+    /* หรือสามารถใช้รหัสสีหรือชื่อสีอื่น ๆ */
+  }
+
+  .place-img-box {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 5px solid #ccc;
+    margin-bottom: 10px;
+  }
+
+  .place-img-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+
+  .place-info {
+    text-align: center;
+  }
+
+
+ /*/////////////////////////////////////////////////////////////////////////////////*/
+  /* CSS สำหรับกล่องค้นหา */
+.search-container {
+    display: flex;
+    justify-content: center; /* ทำให้อยู่ตรงกลางแนวนอน */
+    align-items: center; /* ทำให้อยู่ตรงกลางแนวตั้ง */
+    
+    padding: 20px; /* ระยะห่างภายในกล่อง */
+  }
+  
+  .search-container form {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-container input[type="text"],
+  .search-container button[type="submit"] {
+    padding: 10px; /* ระยะห่างของ input และ button */
+    border: none; /* ไม่มีเส้นขอบ */
+    border-radius: 5px; /* มุมโค้งขอบ */
+    font-size: 16px; /* ขนาดตัวอักษร */
+  }
+  
+  .search-container input[type="text"] {
+    flex: 1; /* ขยายให้เต็มพื้นที่ */
+    margin-right: 10px; /* ระยะห่างขวา */
+  }
+  
+  .search-container button[type="submit"] {
+    background-color: #22b3c1; /* สีปุ่ม */
+    color: #fff; /* สีตัวอักษรในปุ่ม */
+    cursor: pointer; /* เป็นเครื่องมือที่ชี้ได้ */
+    transition: background-color 0.3s ease; /* เพิ่มเอฟเฟกต์การเปลี่ยนสี */
+  }
+  
+  .search-container button[type="submit"]:hover {
+    background-color: #168b98; /* เปลี่ยนสีเมื่อเม้าส์ hover */
+  }
+
+   /* สไตล์ checkbox */
+    .custom-checkbox input[type="checkbox"] {
+      display: none; /* ซ่อน checkbox แท้ */
+    }
+
+    /* สไตล์ label ที่ใช้เป็นปุ่ม checkbox */
+    .custom-checkbox label {
+      display: inline-block;
+      padding: 5px 10px;
+      cursor: pointer;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    /* สไตล์ label ที่ใช้เป็นปุ่ม checkbox เมื่อ hover */
+    .custom-checkbox label:hover {
+      background-color: #f0f0f0;
+    }
+
+
+    /*/////////////////////////////////////////////////////////////////////////////////*/
+    /* สไตล์ label ที่ใช้เป็นปุ่ม checkbox เมื่อ checkbox ถูกเลือก */
+    .custom-checkbox input[type="checkbox"]:checked + label {
+      border: 2px solid #007bff;
+      background-color: #007bff;
+      color: #fff;
+    }  /* สไตล์ checkbox */
+    .custom-checkbox input[type="checkbox"] {
+      display: none; /* ซ่อน checkbox แท้ */
+    }
+
+    /* สไตล์ label ที่ใช้เป็นปุ่ม checkbox */
+    .custom-checkbox label {
+      display: inline-block;
+      padding: 5px 10px;
+      cursor: pointer;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    /* สไตล์ label ที่ใช้เป็นปุ่ม checkbox เมื่อ hover */
+    .custom-checkbox label:hover {
+      background-color: #f0f0f0;
+    }
+
+    /* สไตล์ label ที่ใช้เป็นปุ่ม checkbox เมื่อ checkbox ถูกเลือก */
+    .custom-checkbox input[type="checkbox"]:checked + label {
+      border: 2px solid #007bff;
+      background-color: #007bff;
+      color: #fff;
+    }
+
+ 
+/*/////////////////////////////////////////////////////////////////////////////////*/
+  input[type="checkbox"] {
+    transform: scale(1.5); /* เพิ่มขนาดปุ่ม checkbox 1.5 เท่า */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่าง checkbox กับข้อความ */
+    /* เพิ่มสีของ checkbox เมื่อถูกเลือก */
+  }
+  input[type="checkbox"]:checked {
+    background-color: #3498db; /* เปลี่ยนสีเมื่อถูกเลือก */
+    border-color: #3498db; /* เปลี่ยนสีขอบเมื่อถูกเลือก */
+    color: white; /* เปลี่ยนสีข้อความเมื่อถูกเลือก */
+  }
+
+
+
+/*/////////////////////////////////กรอบสถานที่เที่ยว/////////////////////////////////////////*/
+.attraction-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* จัดข้อมูลให้อยู่กึ่งกลางแนวนอน */
+}
+.attraction-item {
+  flex-basis: calc(33.33% - 10px); /* ให้แยกข้อมูล 3 คอลัมน์และมีระยะห่าง 10px ระหว่างคอลัมน์ */
+  padding: 10px;
+  text-align: center; /* จัดตำแหน่งข้อความกลางแนวตรงกลาง */
+  background-color: #f5f5f6; /* พื้นหลังสีเทาอ่อน */
+  border: 1px solid #ddd; /* เส้นขอบ */
+  margin-bottom: 20px; /* ระยะห่างขอบล่างของแต่ละสถานที่เที่ยว */
+}
+.attraction-image {
+  max-width: 100px; /* ขนาดรูปภาพสูงสุด */
+  margin: 0 auto; /* จัดตำแหน่งรูปภาพกึ่งกลาง */
+}
+.attrac-name {
+  margin-top: 5px; /* ระยะห่างระหว่างชื่อสถานที่เที่ยวและรูปภาพ */
+}
+
+

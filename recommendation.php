@@ -1,237 +1,155 @@
-<?php require "includes/header.php"; ?>
-<?php require "config/config.php"; ?>
-<?php require "ConDb.php"; ?>
-<?php 
-// ตรวจสอบว่าผู้ใช้กดปุ่ม "Search Results"
-if (isset($_POST['submit'])) {
-  // ตรวจสอบว่าผู้ใช้ล็อกอินแล้วและรับค่า user_id จากการล็อกอิน
-  session_start();
-  if (isset($_SESSION['user_id'])) {
-      $user_id = $_SESSION['user_id'];
+<?php
+require "includes/header.php";
+require "config/config.php";
+require "ConDb.php";
 
-      // รับค่าที่ผู้ใช้กรอกในฟอร์ม
-      $category_order_1 = $_POST['category_order_1'];
-      $category_order_2 = $_POST['category_order_2'];
-      $category_order_3 = $_POST['category_order_3'];
-      $category_order_4 = $_POST['category_order_4'];
-
-      // คำสั่ง SQL สำหรับเพิ่มข้อมูลลงในตาราง recommendation
-      $sql = "INSERT INTO recommendation (user_id, Cat_ID, Cat_Score2) VALUES (:user_id, :cat_id, :cat_score2)";
-
-      // สร้างคำสั่ง SQL และทำการเรียก execute สำหรับแต่ละข้อมูล
-      $stmt = $conn->prepare($sql);
-
-      // บันทึกข้อมูลตามหัวข้อแต่ละอัน
-      $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-
-      // บันทึกข้อมูลแต่ละหัวข้อ
-      $stmt->bindParam(':cat_id', $category_order_1, PDO::PARAM_INT);
-      $stmt->bindParam(':cat_score2', $category_order_1, PDO::PARAM_INT);
-      $stmt->execute();
-
-      $stmt->bindParam(':cat_id', $category_order_2, PDO::PARAM_INT);
-      $stmt->bindParam(':cat_score2', $category_order_2, PDO::PARAM_INT);
-      $stmt->execute();
-
-      $stmt->bindParam(':cat_id', $category_order_3, PDO::PARAM_INT);
-      $stmt->bindParam(':cat_score2', $category_order_3, PDO::PARAM_INT);
-      $stmt->execute();
-
-      $stmt->bindParam(':cat_id', $category_order_4, PDO::PARAM_INT);
-      $stmt->bindParam(':cat_score2', $category_order_4, PDO::PARAM_INT);
-      $stmt->execute();
-
-      // บันทึกข้อมูลเรียบร้อยแล้ว
-      echo "บันทึกข้อมูลเรียบร้อยแล้ว";
-  } else {
-      // หากผู้ใช้ไม่ได้ล็อกอิน คุณสามารถเปลี่ยนไปยังหน้าล็อกอินหรือทำการจัดการตามที่คุณต้องการ
-      echo "กรุณาล็อกอินก่อนที่จะทำการบันทึกข้อมูล";
-  }
+// ตรวจสอบว่าผู้ใช้ล็อกอินเรียบร้อยและมี User_ID ใน $_SESSION
+if (!isset($_SESSION["username"])) {
+    header("location: " . APPURL . "");
+    exit();
 }
 
 
-//เลือกลำดับ รานชื่อ category
-  $cat = $conn->query("SELECT * FROM tbl_categories ");
-  $cat->execute();
+$query = "SELECT attrac_name, attrac_detail, attrac_img FROM tbl_attraction WHERE attrac_id = attrac_id";
+$result = mysqli_query($con, $query);
 
-  $allCat = $cat->fetchAll(PDO::FETCH_OBJ);
+    // ตรวจสอบการล็อกอินของผู้ใช้และรับ user_id ของผู้ใช้ที่ล็อกอิน
+    if (isset($_SESSION['user_id'])) {
+        $user_id_logged_in = $_SESSION['user_id'];
 
+    // สร้างคำสั่ง SQL เพื่อค้นหา user_id ที่ตรงกับเงื่อนไขและไม่ตรงกับ user_id ที่ล็อกอิน
+    $sql = "SELECT user_id FROM user_category_scores WHERE Cat_Score IN (1, 2, 3, 4) AND user_id != :user_id_logged_in";
+
+     // เตรียมคำสั่ง SQL
+     $stmt = $conn->prepare($sql);
+     $stmt->bindParam(':user_id_logged_in', $user_id_logged_in, PDO::PARAM_INT); // ระบุ user_id ของผู้ใช้ที่ล็อกอิน
+
+    // ดำเนินการคิวรี่
+    $stmt->execute();
+
+
+    // ตรวจสอบว่ามี user_id ที่ตรงกันหรือไม่
+    if ($stmt->rowCount() > 0) {
+        // สร้างอาร์เรย์เพื่อเก็บ user_id ที่มี Cat_Score ตรงกับผู้ใช้ที่ล็อกอิน
+        $userIdsWithMatchingCatScore = [];
+        
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $user_id_match = $row['user_id'];
+
+            // สร้างคำสั่ง SQL เพื่อค้นหา Attrac_ID ที่ไม่ซ้ำกันระหว่าง user_id_logged_in และ user_id_match
+            $sql_attractions = "SELECT a.attrac_id, b.attrac_name FROM user_visited_places a
+                                INNER JOIN tbl_attraction b ON a.attrac_id = b.attrac_id
+                                WHERE a.user_id = :user_id_match AND a.attrac_id NOT IN (
+                                    SELECT attrac_id FROM user_visited_places
+                                    WHERE user_id = :user_id_logged_in
+                                )";
+
+            // เตรียมคำสั่ง SQL
+            $stmt_attractions = $conn->prepare($sql_attractions);
+            $stmt_attractions->bindParam(':user_id_match', $user_id_match, PDO::PARAM_INT);
+            $stmt_attractions->bindParam(':user_id_logged_in', $user_id_logged_in, PDO::PARAM_INT);
+
+            // ดำเนินการคิวรี่
+            $stmt_attractions->execute();
+        
+            }
+        } else {
+            // ถ้าไม่มี user_id ที่มี Cat_Score ตรงกับผู้ใช้ที่ล็อกอิน
+            echo "ไม่มีข้อมูลสถานที่ท่องเที่ยวที่เหมาะสำหรับคุณ";
+        }
+    } 
+    else {
+        // กรณีไม่มีการล็อกอิน
+        echo "คุณไม่ได้ล็อกอิน";
+    }
 ?>
-
-
-
- <!-- ***** Main Banner Area Start ***** -->
-
- <div class="about-main-content">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="content">
-            <div class="blur-bg"></div>
-            <h2>RECOMMENDATION</h2>
-            <div class="line-dec"></div>
-            <h4>ป้อนข้อมูลเพื่อค้นหาสถานที่ท่องเที่ยวที่เหมาะสำหรับคุณ</h4>
-            <p>
-            
-            </p>
-            <div class="main-button">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- ***** Main Banner Area End ***** -->
-
-  <div class="search-form">
+<!-- ***** Main Banner Area Start ***** -->
+<div class="about-main-content">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <form id="search-form" method="POST" role="search" action="search.php">
-                    <div class="row">
-                        <div class="col-lg-2">
-                            <h4 class="btn btn-primary">เที่ยวชมธรรมชาติ:</h4>
-                        </div>
-                        <div class="col-lg-4">
-                            <fieldset>
-                                <select name="category_order_1" class="form-select" aria-label="Default select example" id="chooseLocation1" onChange="this.form.click()">
-                                    <option selected>โปรดใส่ลำดับ</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
-                            </fieldset>
-                        </div>
-
-                        <div class="col-lg-2">
-                            <h4 class="btn btn-primary">เรียนรู้วัฒนธรรมและวิถีชุมชน:</h4>
-                        </div>
-                        <div class="col-lg-4">
-                            <fieldset>
-                                <select name="category_order_2" class="form-select" aria-label="Default select example" id="chooseLocation2" onChange="this.form.click()">
-                                    <option selected>โปรดใส่ลำดับ</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
-                            </fieldset>
-                        </div>
-
-                        <div class="col-lg-2">
-                            <h4 class="btn btn-primary">ประวัติศาสตร์และศิลปะ:</h4>
-                        </div>
-                        <div class="col-lg-4">
-                            <fieldset>
-                                <select name="category_order_3" class="form-select" aria-label="Default select example" id="chooseLocation3" onChange="this.form.click()">
-                                    <option option selected>โปรดใส่ลำดับ</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
-                            </fieldset>
-                        </div>
-
-                        <div class="col-lg-2">
-                            <h4 class="btn btn-primary">กิจกรรมด้านบันเทิง:</h4>
-                        </div>
-                        <div class="col-lg-4">
-                            <fieldset>
-                                <select name="category_order_4" class="form-select" aria-label="Default select example" id="chooseLocation4" onChange="this.form.click()">
-                                    <option selected>โปรดใส่ลำดับ</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
-                            </fieldset>
-                        </div>
-
-                        <div class="col-lg-12">
-                            <fieldset>
-                                <button type="submit" name="submit" class="border-button">Search Results</button>
-                            </fieldset>
-                        </div>
-                    </div>
-                </form>
+                <div class="content">
+                    <div class="blur-bg"></div>
+                    <h2>RECOMMENDATION</h2>
+                    <div class="line-dec"></div>
+                    <h4>สถานที่ท่องเที่ยวที่เหมาะสำหรับคุณ</h4>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<!-- ***** Main Banner Area End ***** -->
+
+        <!-- นี่คือลูกศรที่ใช้เลื่อนลงข้างล่าง -->
+                <div class="col-md-12 text-center">
+                <p style=" color:  #22b3c1;" ><i class="fa fa-angle-double-down " aria-hidden="true"></i> สถานที่ท่องเที่ยวที่เหมาะสำหรับคุณ</p>
+                </div>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <link rel="stylesheet" type="text/css" href="css/styles_about.css">
+</head>
+
+<main>
+   <!-- ... สร้างฟอร์มกล่องเริ่มต้นแนะนำ ... -->
+   <div class="col-md-12 text-center">
+    <section class="recommendation-button">
+        <button onclick="location.href='<?php echo APPURL; ?>/users/history.php?id=<?php echo $_SESSION['user_id']; ?>';" class="btn-recommend">
+        <div class="animation">
+                <div class="circle"></div>
+        <span>เริ่มต้นแนะนำ</span>
+            <div class="btn-icon">
+                <div class="icon-line top"></div>
+                <div class="icon-line bottom"></div>
+            </div>
+        </button>
+    </section>
+</div>
 
 
-<!-- ***** สคริปไว้เงื่อนไข เลือกเลขที่ไม่ซ้ำกัน ***** -->
-<script>
-    var selectedOptions = [];
-
-    function validateSelection(selectId, otherSelectIds) {
-        var selectedValue = document.getElementById(selectId).value;
-
-        // ตรวจสอบว่าผู้ใช้เลือกมากกว่า 4 ตัวเลือกแล้ว
-        if (selectedOptions.length >= 4 && !selectedOptions.includes(selectedValue)) {
-            alert("คุณเลือกตัวเลือกมากกว่า 4 ตัวเลือกแล้ว");
-            document.getElementById(selectId).value = 'โปรดใส่ลำดับ';
-            return;
-        }
-
-        // ตรวจสอบว่ามีตัวเลือกที่เลือกแล้วหรือไม่
-        if (selectedOptions.includes(selectedValue)) {
-            alert("คุณเลือกตัวเลือกนี้ไปแล้ว");
-            document.getElementById(selectId).value = 'โปรดใส่ลำดับ';
-            return;
-        }
-
-        // ลบตัวเลือกที่ถูกยกเลิกออกจาก selectedOptions
-        if (selectedOptions.includes('โปรดใส่ลำดับ')) {
-            var index = selectedOptions.indexOf('โปรดใส่ลำดับ');
-            if (index !== -1) {
-                selectedOptions.splice(index, 1);
-            }
-        }
-
-        // เพิ่มหรืออัปเดต selectedOptions
-        if (selectedOptions.includes(selectedValue)) {
-            var index = selectedOptions.indexOf(selectedValue);
-            if (index !== -1) {
-                selectedOptions.splice(index, 1);
-            }
-        }
-        selectedOptions.push(selectedValue);
-
-        // ปิดการใช้งานตัวเลือกที่ไม่ได้เลือก
-        for (var i = 0; i < otherSelectIds.length; i++) {
-            var otherSelectId = otherSelectIds[i];
-            if (otherSelectId !== selectId) {
-                document.getElementById(otherSelectId).querySelectorAll('option').forEach(function (option) {
-                    if (option.value === selectedValue) {
-                        option.disabled = true;
-                    } else {
-                        option.disabled = false;
-                    }
-                });
-            }
-        }
+  <section class="places-container">
+    <?php
+    
+if ($stmt_attractions->rowCount() > 0) {
+    // หากมีข้อมูลสถานที่ท่องเที่ยว
+    if (!in_array($user_id_match, $userIdsWithMatchingCatScore)) {
+        // ตรวจสอบว่า user_id ยังไม่ถูกเพิ่มในอาร์เรย์
+        array_push($userIdsWithMatchingCatScore, $user_id_match);
+    // แสดงข้อมูลสถานที่ท่องเที่ยว
+    while ($attraction = $stmt_attractions->fetch(PDO::FETCH_ASSOC)) {
+    $attrac_id = $attraction['attrac_id'];
+    $attrac_name = $attraction['attrac_name'];
+    $row = mysqli_fetch_array($result);
+    echo '<div class="place">';
+    echo '<div class="place-img-box">';
+    echo "<td align=center>"."<img src='http://localhost/travel/TestCode/backend/attrac_img/".$row["attrac_img"]."' width='100'>"."</td>";
+    echo '</div>';
+    echo '<div class="place-info">';
+    echo '<h3>' . $attrac_name . '</h3>';
+    echo '<p>' . $attrac_id . '</p>';
+    echo '</div>';
+    echo '</div>';
     }
+}
+}
+    else {
+        // ไม่พบข้อมูลในการค้นหา
+        echo "<script>alert('ไม่พบข้อมูล');</script>";
+        exit();
+    }
+?>
+  </section>
+</main>
+<body>
+    <script>
+   
 
-    // เรียกใช้ validateSelection เมื่อเปลี่ยนการเลือกในแต่ละช่อง
-    document.getElementById('chooseLocation1').addEventListener('change', function () {
-        validateSelection('chooseLocation1', ['chooseLocation2', 'chooseLocation3', 'chooseLocation4']);
-    });
-
-    document.getElementById('chooseLocation2').addEventListener('change', function () {
-        validateSelection('chooseLocation2', ['chooseLocation1', 'chooseLocation3', 'chooseLocation4']);
-    });
-
-    document.getElementById('chooseLocation3').addEventListener('change', function () {
-        validateSelection('chooseLocation3', ['chooseLocation1', 'chooseLocation2', 'chooseLocation4']);
-    });
-
-    document.getElementById('chooseLocation4').addEventListener('change', function () {
-        validateSelection('chooseLocation4', ['chooseLocation1', 'chooseLocation2', 'chooseLocation3']);
-    });
-</script>
+    </script>
+</body>
+</html>
 
 
 

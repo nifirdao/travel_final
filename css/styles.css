@@ -35,4 +35,105 @@
   .search-container button[type="submit"]:hover {
     background-color: #168b98; /* เปลี่ยนสีเมื่อเม้าส์ hover */
   }
+
+
+  /* /////////////////////////////////เพิ่มสไตล์ปุ่มเริ่มต้นแนะนำ /////////////////////////////////////////*/
+
+.btn-recommend {
+  background-color: #22b3c1; /* สีพื้นหลังของปุ่ม */
+  color: white; /* สีข้อความในปุ่ม */
+  padding: 10px 20px; /* ขนาดของปุ่ม */
+  border: none; /* ลบเส้นขอบของปุ่ม */
+  border-radius: 5px; /* รูปร่างขอบของปุ่ม */
+  font-size: 18px; /* ขนาดตัวอักษร */
+  cursor: pointer; /* แสดงเคอร์เซอร์เป็นรูปแบบแท่งเมื่อโฮเวอร์ปุ่ม */
+  transition: background-color 0.3s ease-in-out; /* เพิ่มเอเฟกต์เมื่อ Hover */
+  position: relative; /* ตำแหน่งสำหรับส่วนของอนิเมชัน */
+}
+
+.btn-recommend:hover {
+  background-color: red; /* เปลี่ยนสีพื้นหลังเมื่อ Hover */
+}
+.btn-recommend span {
+  position: relative; /* ตำแหน่งสำหรับข้อความภายในปุ่ม */
+  z-index: 2; /* ข้อความอยู่ด้านบนสุด */
+}
+
+.btn-icon {
+  position: absolute; /* ตำแหน่งสำหรับส่วนของอนิเมชัน */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1; /* ส่วนของอนิเมชันอยู่ด้านล่างของปุ่ม */
+  opacity: 0; /* ปิดการแสดงผลเริ่มต้น */
+  transition: opacity 0.3s ease-in-out; /* เพิ่มเอเฟกต์ที่ควบคุมความโปร่งใสของอนิเมชัน */
+}
+
+.btn-recommend:hover .btn-icon {
+  opacity: 1; /* เปิดการแสดงผลเมื่อโฮเวอร์ปุ่ม */
+}
+
+.icon-line {
+  width: 20px;
+  height: 2px;
+  background-color: red;
+  margin: 2px;
+  transition: transform 0.3s ease-in; /* เพิ่มเอเฟกต์การเคลื่อนที่ของเส้น */
+}
+
+.btn-recommend:hover .icon-line.top {
+  transform: translateY(-4px); /* เคลื่อนที่เส้นด้านบนขึ้น */
+}
+
+.btn-recommend:hover .icon-line.bottom {
+  transform: translateY(4px); /* เคลื่อนที่เส้นด้านล่างลง */
+}
+
+.btn-recommend {
+  position: relative;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  font-size: 18px;
+  color: #22b3c1;
+}
+
+.animation {
+  position: relative;
+  display: inline-block;
+  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  background-color: #22b3c1;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  opacity: 0;
+  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.text {
+  z-index: 1;
+}
+
+.btn-recommend:hover .animation {
+  transform: translateY(30px);
+}
+
+.btn-recommend:hover .circle {
+  transform: scale(1.2);
+  opacity: 1;
+}
   

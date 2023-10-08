@@ -8,69 +8,71 @@ if (!isset($_SESSION["username"])) {
     header("location: " . APPURL . "");
     exit();
 }
-
+$attrac_id = $_GET["id"];
 $query = "SELECT attrac_name, attrac_detail, attrac_img FROM tbl_attraction WHERE attrac_id = attrac_id";
 $result = mysqli_query($con, $query);
-
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $userID = $_SESSION["user_id"];
 
-    if (isset($_POST["attraction"]) && is_array($_POST["attraction"])) {
-        $selectedAttractions = $_POST["attraction"];
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        $userID = $_SESSION["user_id"];
     
-        if (count($selectedAttractions) <= 5) {
-            try {
-                $conn->beginTransaction();
+        // ตรวจสอบว่าผู้ใช้เลือกสถานที่เที่ยวอย่างน้อยหนึ่งแห่งและไม่เกิน 5 แห่ง
+        if (isset($_POST["attraction"]) && is_array($_POST["attraction"])) {
+            $selectedAttractions = $_POST["attraction"];
     
-                foreach ($selectedAttractions as $attractionID) {
-                    // ดึงชื่อสถานที่เที่ยวจากตาราง tbl_attraction
-                    $stmtSelectAttraction = $conn->prepare("SELECT attrac_name FROM tbl_attraction WHERE Attrac_ID = :attrac_id");
-                    $stmtSelectAttraction->bindParam(":attrac_id", $attractionID, PDO::PARAM_INT);
-                    $stmtSelectAttraction->execute();
-                    $attractionName = $stmtSelectAttraction->fetchColumn();
+            if (count($selectedAttractions) <= 5) {
+                try {
+                    $conn = new PDO("mysql:host=localhost;dbname=travel", "root", "");
+                    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-                    // ตรวจสอบว่ามีข้อมูลในตาราง user_visited_places หรือไม่
-                    $stmtSelect = $conn->prepare("SELECT * FROM user_visited_places WHERE User_ID = :user_id AND Attrac_ID = :attrac_id");
-                    $stmtSelect->bindParam(":user_id", $userID, PDO::PARAM_INT);
-                    $stmtSelect->bindParam(":attrac_id", $attractionID, PDO::PARAM_INT);
-                    $stmtSelect->execute();
-                    $existingRecord = $stmtSelect->fetch(PDO::FETCH_ASSOC);
-
+                    $conn->beginTransaction();
     
-                    if ($existingRecord) {
-                        // อัปเดต Attrac_ID และ attrac_name ที่มีอยู่
-                        $stmtUpdate = $conn->prepare("UPDATE user_visited_places SET Attrac_ID = :attrac_id, attrac_name = :attrac_name WHERE User_ID = :user_id AND Visit_ID = :visit_id");
-                        $stmtUpdate->bindParam(":attrac_id", $attractionID, PDO::PARAM_INT);
-                        $stmtUpdate->bindParam(":attrac_name", $attractionName, PDO::PARAM_STR);
-                        $stmtUpdate->bindParam(":user_id", $userID, PDO::PARAM_INT);
-                        $stmtUpdate->bindParam(":visit_id", $visitID, PDO::PARAM_INT);
-                        $stmtUpdate->execute();
-                    } else {
-                        // เพิ่มข้อมูลใหม่
-                        $stmtInsert = $conn->prepare("INSERT INTO user_visited_places (User_ID, Attrac_ID, attrac_name) VALUES (:user_id, :attrac_id, :attrac_name)");
-                        $stmtInsert->bindParam(":user_id", $userID, PDO::PARAM_INT);
-                        $stmtInsert->bindParam(":attrac_id", $attractionID, PDO::PARAM_INT);
-                        $stmtInsert->bindParam(":attrac_name", $attractionName, PDO::PARAM_STR);
-                        $stmtInsert->execute();
-
+                    foreach ($selectedAttractions as $attractionID) {
+                        // ดึงชื่อสถานที่เที่ยวจากตาราง tbl_attraction
+                        $stmtSelectAttraction = $conn->prepare("SELECT attrac_name FROM tbl_attraction WHERE Attrac_ID = :attrac_id");
+                        $stmtSelectAttraction->bindParam(":attrac_id", $attractionID, PDO::PARAM_INT);
+                        $stmtSelectAttraction->execute();
+                        $attractionName = $stmtSelectAttraction->fetchColumn();
+    
+                        // ตรวจสอบว่ามีข้อมูลในตาราง user_visited_places หรือไม่
+                        $stmtSelect = $conn->prepare("SELECT * FROM user_visited_places WHERE User_ID = :user_id AND Attrac_ID = :attrac_id");
+                        $stmtSelect->bindParam(":user_id", $userID, PDO::PARAM_INT);
+                        $stmtSelect->bindParam(":attrac_id", $attractionID, PDO::PARAM_INT);
+                        $stmtSelect->execute();
+                        $existingRecord = $stmtSelect->fetch(PDO::FETCH_ASSOC);
+    
+                        if ($existingRecord) {
+                            // อัปเดต Attrac_ID ที่มีอยู่
+                            $stmtUpdate = $conn->prepare("UPDATE user_visited_places SET Attrac_ID = :attrac_id, attrac_name = :attrac_name WHERE User_ID = :user_id AND Attrac_ID = :attrac_id");
+                            $stmtUpdate->bindParam(":user_id", $userID, PDO::PARAM_INT);
+                            $stmtUpdate->bindParam(":attrac_id", $attractionID, PDO::PARAM_INT);
+                            $stmtUpdate->bindParam(":attrac_name", $attractionName, PDO::PARAM_STR);
+                            $stmtUpdate->execute();
+                        } else {
+                            // เพิ่มข้อมูลใหม่
+                            $stmtInsert = $conn->prepare("INSERT INTO user_visited_places (User_ID, Attrac_ID, attrac_name) VALUES (:user_id, :attrac_id, :attrac_name)");
+                            $stmtInsert->bindParam(":user_id", $userID, PDO::PARAM_INT);
+                            $stmtInsert->bindParam(":attrac_id", $attractionID, PDO::PARAM_INT);
+                            $stmtInsert->bindParam(":attrac_name", $attractionName, PDO::PARAM_STR);
+                            $stmtInsert->execute();
+                        }
                     }
+    
+                    $conn->commit();
+    
+                    echo "<script>alert('บันทึกสำเร็จ');</script>";
+                    header("about.php"); //ไว้ไปหน้า about.php หลังจากบันทึก
+    
+                    exit();
+                } catch (PDOException $e) {
+                    $conn->rollback();
+                    echo "Error: " . $e->getMessage();
                 }
-    
-                $conn->commit();
-    
-                echo "<script>alert('บันทึกคะแนนสำเร็จ');</script>";
-
-                // เพิ่มโค้ดเพื่อเปลี่ยนเส้นทางไปยังหน้า "Recommendation" หลังจากบันทึกคะแนนสำเร็จ
-                echo "<script>window.location.href = '" . APPURL . "/recommendation.php';</script>";        
-                        
-                exit();
-            } catch (PDOException $e) {
-                $conn->rollback();
-                echo "Error: " . $e->getMessage();
+            } else {
+                echo "<script>alert('คุณสามารถเลือกสถานที่เที่ยวได้ไม่เกิน 5 แห่ง');</script>";
             }
-        } else {
-            echo "<script>alert('คุณสามารถเลือกสถานที่เที่ยวได้ไม่เกิน 5 แห่ง');</script>";
         }
     }
 }    
