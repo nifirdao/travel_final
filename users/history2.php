@@ -56,6 +56,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                     }
                 }
+
+                 // เพิ่มโค้ดเพื่อลบข้อมูลเก่าเมื่อผู้ใช้เลือกสถานที่เที่ยวเกิน 5 แห่ง **ไว้ลบข้อมูลที่เยอะตามมาในอนาคต
+                 
+                // ตรวจสอบว่ามีข้อมูลในตาราง user_visited_places หรือไม่
+                    $stmtSelect = $conn->prepare("SELECT * FROM user_visited_places WHERE User_ID = :user_id");
+                    $stmtSelect->bindParam(":user_id", $userID, PDO::PARAM_INT);
+                    $stmtSelect->execute();
+                    $records = $stmtSelect->fetchAll(PDO::FETCH_ASSOC);
+
+                    // ตรวจสอบจำนวนเร็คคอร์ด
+                    if (count($records) > 5) {
+                        // เรียงลำดับเร็คคอร์ดตาม Visit_ID ในลำดับล่าสุด
+                        usort($records, function($a, $b) {
+                            return $b['Visit_ID'] - $a['Visit_ID'];
+                        });
+
+                        // ลบเร็คคอร์ดที่มากกว่า 5 รายการ
+                        $recordsToDelete = array_slice($records, 5);
+                        foreach ($recordsToDelete as $record) {
+                            $stmtDelete = $conn->prepare("DELETE FROM user_visited_places WHERE Visit_ID = :visit_id");
+                            $stmtDelete->bindParam(":visit_id", $record['Visit_ID'], PDO::PARAM_INT);
+                            $stmtDelete->execute();
+                        }
+                    }
+
     
                 $conn->commit();
     
@@ -63,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 // เพิ่มโค้ดเพื่อเปลี่ยนเส้นทางไปยังหน้า "Recommendation" หลังจากบันทึกคะแนนสำเร็จ
                 echo "<script>window.location.href = '" . APPURL . "/recommendation.php';</script>";        
-                        
+
                 exit();
             } catch (PDOException $e) {
                 $conn->rollback();
