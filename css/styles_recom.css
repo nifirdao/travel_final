@@ -1,0 +1,64 @@
+.btn-details {
+    background-color: #22B3C1;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    border: 2px solid #b7ee2b;
+}
+
+.btn-details:hover {
+    background-color: #22B3C1;
+}
+
+.btn-details:active {
+    background-color: #003d80;
+}
+
+/* เพิ่มขอบสวยงาม */
+.place {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    background-color: #fff; /* พื้นหลังกรอบ */
+}
+
+/* สไตล์ข้อความ */
+.place h3 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.place p {
+    font-size: 1rem;
+    color: #777;
+}
+
+
+
+  /* /////////////////////////////////หน้ารายละเอียด /////////////////////////////////////////*/
+/* สไตล์ข้อมูลรายละเอียดเพิ่มเติม */
+.attraction-details {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 20px;
+}
+
+.attraction-details h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.attraction-details p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+  /* /////////////////////////////////หน้ารายละเอียด /////////////////////////////////////////*/

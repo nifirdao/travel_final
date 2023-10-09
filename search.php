@@ -1,69 +1,71 @@
-<?php require "includes/header.php"; ?>
-<?php require "config/config.php"; ?>
-<?php require "ConDb.php"; ?>
-
-
-
 <?php 
-$attrac_id = $_GET["id"];
+require "includes/header.php";
+require "config/config.php";
+require "ConDb.php";
 
-$query = "SELECT attrac_name, attrac_detail, attrac_img FROM tbl_attraction WHERE attrac_id = attrac_id";
-$result = mysqli_query($con, $query);
+if (isset($_GET['attrac_id'])) {
+    $attrac_id = $_GET['attrac_id'];
 
+    $attraction = $conn->query("SELECT * FROM tbl_attraction WHERE attrac_id='$attrac_id'");
+    $attraction->execute();
+
+    $singleAttraction = $attraction->fetch(PDO::FETCH_OBJ);
+
+    // เช็คว่าพบข้อมูลสถานที่ท่องเที่ยวหรือไม่
+    if (!$singleAttraction) {
+        // หากไม่พบข้อมูลสถานที่ท่องเที่ยวที่ตรงเงื่อนไข
+        header("Location: 404.php");
+        exit;
+    }
+} else {
+    // หากไม่มี attrac_id ที่ส่งมา
+    header("Location: 404.php");
+    exit;
+}
 ?>
 
+<!-- ***** Main Banner Area Start ***** -->
+<div class="about-main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="content">
+                    <div class="blur-bg"></div>
+                    <h4>EXPLORE OUR RECOMMENDATION</h4>
+                    <div class="line-dec"></div>
+                    <h2>Welcome To <?php echo $singleAttraction->attrac_name; ?></h2>
+                    <p>
+                        <?php echo $singleAttraction->attrac_detail; ?>
+                    </p>
+                    <div class="main-button">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ***** Main Banner Area End ***** -->
+
+
+<!-- ตรวจสอบค่า $sql และปรับรายละเอียด CSS ตามที่ต้องการ -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <!-- ... ตกแต่งกล่องค้นหา ... -->
-  <link rel="stylesheet" type="text/css" href="css/styles.css">
-  <link rel="stylesheet" type="text/css" href="css/styles_about.css">
+    <link rel="stylesheet" type="text/css" href="css/styles_about.css">
+    <!-- ... ตกแต่งกล่องค้นหา ... -->
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles_about.css">
 </head>
 
 <main>
-   <!-- ... สร้างฟอร์มกล่องค้นหา ... -->
- <section class="search-container">
-    <form action="" method="post">
-      <input type="text" name="search" placeholder="ค้นหาชื่อสถานที่">
-      <button type="submit">ค้นหา</button>
-    </form>
-  </section>
-  <section class="places-container">
-    <?php
-    //เงื่อนไข ค้นหา
-    if (isset($_POST['search'])) {
-      $search = $_POST['search'];
-      $query = "SELECT attrac_name, attrac_detail, attrac_img FROM tbl_attraction WHERE attrac_name LIKE '%$search%'";
-      $result = mysqli_query($con, $query);
-    }
-
     
-    if (mysqli_num_rows($result) > 0) {
-   while($row = mysqli_fetch_array($result)) {
-      // ดึงข้อมูลจากแต่ละแถวในตาราง tbl_actraction
-      $attrac_name = $row['attrac_name'];
-      $attrac_detail = $row['attrac_detail'];
-
-      // แสดงข้อมูลในรูปแบบสถานที่ท่องเที่ยวที่ต้องการ
-      echo '<div class="place">';
-      echo '<div class="place-img-box">';
-      echo "<td align=center>"."<img src='http://localhost/travel/TestCode/backend/attrac_img/".$row["attrac_img"]."' width='100'>"."</td>";
-      echo '</div>';
-      echo '<div class="place-info">';
-      echo '<h3>' . $attrac_name . '</h3>';
-      echo '<p>' . $attrac_detail . '</p>';
-      echo '</div>';
-      echo '</div>';
-    }
-  } else {
-      // ไม่พบข้อมูลในการค้นหา
-      echo "<script>alert('ไม่พบข้อมูล'); window.location.href='about1.php';</script>";
-      exit();
-  }
-    ?>
-  </section>
 </main>
+
+<body>
+
+</body>
+
 </html>
 
 <?php require "includes/footer.php"; ?>

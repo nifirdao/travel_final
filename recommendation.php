@@ -138,6 +138,7 @@ $result = mysqli_query($con, $query);
 <head>
   <link rel="stylesheet" type="text/css" href="css/styles.css">
   <link rel="stylesheet" type="text/css" href="css/styles_about.css">
+  <link rel="stylesheet" type="text/css" href="css/styles_recom.css">
 </head>
 
 <main>
@@ -178,6 +179,10 @@ if ($stmt_attractions->rowCount() > 0) {
     echo '<div class="place-info">';
     echo '<h3>' . $attrac_name . '</h3>';
     echo '<p>' . $attrac_id . '</p>';
+
+    // เพิ่มปุ่ม "รายละเอียดเพิ่มเติม" และลิงก์ไปยัง search.php
+    echo '<a href="search.php?attrac_id=' . $attrac_id . '" class="btn-details">รายละเอียดเพิ่มเติม</a>';
+
     echo '</div>';
     echo '</div>';
     }
