@@ -17,13 +17,51 @@ $result = mysqli_query($con, $query);
     if (isset($_SESSION['user_id'])) {
         $user_id_logged_in = $_SESSION['user_id'];
 
-    // สร้างคำสั่ง SQL เพื่อค้นหา user_id ที่ตรงกับเงื่อนไขและไม่ตรงกับ user_id ที่ล็อกอิน
-    $sql = "SELECT user_id FROM user_category_scores WHERE Cat_Score IN (1, 2, 3, 4) AND user_id != :user_id_logged_in";
+    
+        // ค้นหา user_id ที่มี Cat_Score ที่เชื่อมโยงกับ Cat_ID C1, C2, C3, และ C4 ข้อมูลเรียงกัน ตรงกัน
+        $sql = "SELECT user_id
+        FROM user_category_scores
+        WHERE user_id != 17
+        AND user_id IN (
+            SELECT user_id
+            FROM user_category_scores
+            WHERE (Cat_ID = 'C1' AND Cat_Score = (
+                SELECT Cat_Score
+                FROM user_category_scores
+                WHERE user_id = 17
+                AND Cat_ID = 'C1'
+            ))
+            OR (Cat_ID = 'C2' AND Cat_Score = (
+                SELECT Cat_Score
+                FROM user_category_scores
+                WHERE user_id = 17
+                AND Cat_ID = 'C2'
+            ))
+            OR (Cat_ID = 'C3' AND Cat_Score = (
+                SELECT Cat_Score
+                FROM user_category_scores
+                WHERE user_id = 17
+                AND Cat_ID = 'C3'
+            ))
+            OR (Cat_ID = 'C4' AND Cat_Score = (
+                SELECT Cat_Score
+                FROM user_category_scores
+                WHERE user_id = 17
+                AND Cat_ID = 'C4'
+            ))
+            GROUP BY user_id
+            HAVING COUNT(DISTINCT Cat_ID) = 4
+        )
+        
+        
+        ;
+        ";
 
+        
      // เตรียมคำสั่ง SQL
      $stmt = $conn->prepare($sql);
      $stmt->bindParam(':user_id_logged_in', $user_id_logged_in, PDO::PARAM_INT); // ระบุ user_id ของผู้ใช้ที่ล็อกอิน
-
+ 
     // ดำเนินการคิวรี่
     $stmt->execute();
 
@@ -32,15 +70,18 @@ $result = mysqli_query($con, $query);
     if ($stmt->rowCount() > 0) {
         // สร้างอาร์เรย์เพื่อเก็บ user_id ที่มี Cat_Score ตรงกับผู้ใช้ที่ล็อกอิน
         $userIdsWithMatchingCatScore = [];
-        
+    
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $user_id_match = $row['user_id'];
 
             // สร้างคำสั่ง SQL เพื่อค้นหา Attrac_ID ที่ไม่ซ้ำกันระหว่าง user_id_logged_in และ user_id_match
-            $sql_attractions = "SELECT a.attrac_id, b.attrac_name FROM user_visited_places a
+            $sql_attractions = "SELECT a.attrac_id, b.attrac_name 
+                                FROM user_visited_places a
                                 INNER JOIN tbl_attraction b ON a.attrac_id = b.attrac_id
-                                WHERE a.user_id = :user_id_match AND a.attrac_id NOT IN (
-                                    SELECT attrac_id FROM user_visited_places
+                                WHERE a.user_id = :user_id_match 
+                                AND a.attrac_id NOT IN (
+                                    SELECT attrac_id 
+                                    FROM user_visited_places
                                     WHERE user_id = :user_id_logged_in
                                 )";
 
@@ -55,7 +96,13 @@ $result = mysqli_query($con, $query);
             }
         } else {
             // ถ้าไม่มี user_id ที่มี Cat_Score ตรงกับผู้ใช้ที่ล็อกอิน
-            echo "ไม่มีข้อมูลสถานที่ท่องเที่ยวที่เหมาะสำหรับคุณ";
+            echo "<script>alert('ยังไม่มีข้อมูลที่ตรงกัน!! โปรดใส่ข้อมูลเพิ่มเติม');</script>";
+
+
+            // เพิ่มโค้ดเพื่อเปลี่ยนเส้นทางไปยังหน้า "history2" หลังจากบันทึกคะแนน
+            echo "<script>window.location.href = '" . APPURL . "/users/history.php?id=" . $_SESSION['user_id'] . "';</script>";
+            
+
         }
     } 
     else {
@@ -115,7 +162,7 @@ $result = mysqli_query($con, $query);
     
 if ($stmt_attractions->rowCount() > 0) {
     // หากมีข้อมูลสถานที่ท่องเที่ยว
-    if (!in_array($user_id_match, $userIdsWithMatchingCatScore)) {
+  
         // ตรวจสอบว่า user_id ยังไม่ถูกเพิ่มในอาร์เรย์
         array_push($userIdsWithMatchingCatScore, $user_id_match);
     // แสดงข้อมูลสถานที่ท่องเที่ยว
@@ -123,6 +170,7 @@ if ($stmt_attractions->rowCount() > 0) {
     $attrac_id = $attraction['attrac_id'];
     $attrac_name = $attraction['attrac_name'];
     $row = mysqli_fetch_array($result);
+    // แสดงข้อมูลสถานที่เที่ยว
     echo '<div class="place">';
     echo '<div class="place-img-box">';
     echo "<td align=center>"."<img src='http://localhost/travel/TestCode/backend/attrac_img/".$row["attrac_img"]."' width='100'>"."</td>";
@@ -134,10 +182,11 @@ if ($stmt_attractions->rowCount() > 0) {
     echo '</div>';
     }
 }
-}
     else {
         // ไม่พบข้อมูลในการค้นหา
         echo "<script>alert('ไม่พบข้อมูล');</script>";
+        // เพิ่มโค้ดเพื่อเปลี่ยนเส้นทางไปยังหน้า "history2" หลังจากบันทึกคะแนน
+            echo "<script>window.location.href = '" . APPURL . "/users/history.php?id=" . $_SESSION['user_id'] . "';</script>";
         exit();
     }
 ?>

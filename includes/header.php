@@ -25,14 +25,6 @@
     <link rel="stylesheet" href="<?php echo APPURL; ?>/assets/css/owl.css">
     <link rel="stylesheet" href="<?php echo APPURL; ?>/assets/css/animate.css">
     <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
-<!--
-
-TemplateMo 580 Woox Travel
-
-https://templatemo.com/tm-580-woox-travel
-
--->
-
   </head>
 
 <body>
@@ -61,10 +53,12 @@ https://templatemo.com/tm-580-woox-travel
                         <img src="<?php echo APPURL; ?>/assets/images/logos.png" alt="" width="150" height="50">
                     </a>    
                     <!-- ***** Logo End ***** -->
+                    
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="<?php echo APPURL; ?>" class="active">Home</a></li>
                         <li><a href="<?php echo APPURL; ?>/about1.php">About</a></li>
+
                          <!-- ตรวจสอบโดย username ถ้ามี ให้แสดง recommen -->
                         <?php if(isset($_SESSION['username'])) :?>
                           <li><a href="<?php echo APPURL; ?>/recommendation.php">Recommendation</a></li>
@@ -81,6 +75,8 @@ https://templatemo.com/tm-580-woox-travel
                                     <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/auth/logout.php">Logout</a></li>
                                 </ul>
                             </li>
+                             <!-- ตรวจสอบโดย username ถ้ามี ให้แสดง recommen -->
+                             
                         <?php else : ?>  
                             <li><a href="<?php echo APPURL; ?>/auth/login.php">Login</a></li>
                             <li><a href="<?php echo APPURL; ?>/auth/register.php">Register</a></li>

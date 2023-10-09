@@ -72,8 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             return $b['Visit_ID'] - $a['Visit_ID'];
                         });
 
-                        // ลบเร็คคอร์ดที่มากกว่า 5 รายการ
-                        $recordsToDelete = array_slice($records, 5);
+                        // ลบเร็คคอร์ดที่มากกว่า 10 รายการ
+                        $recordsToDelete = array_slice($records, 10);
                         foreach ($recordsToDelete as $record) {
                             $stmtDelete = $conn->prepare("DELETE FROM user_visited_places WHERE Visit_ID = :visit_id");
                             $stmtDelete->bindParam(":visit_id", $record['Visit_ID'], PDO::PARAM_INT);
