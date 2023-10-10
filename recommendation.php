@@ -21,32 +21,32 @@ $result = mysqli_query($con, $query);
         // ค้นหา user_id ที่มี Cat_Score ที่เชื่อมโยงกับ Cat_ID C1, C2, C3, และ C4 ข้อมูลเรียงกัน ตรงกัน
         $sql = "SELECT user_id
         FROM user_category_scores
-        WHERE user_id != 17
+        WHERE user_id != $user_id_logged_in
         AND user_id IN (
             SELECT user_id
             FROM user_category_scores
             WHERE (Cat_ID = 'C1' AND Cat_Score = (
                 SELECT Cat_Score
                 FROM user_category_scores
-                WHERE user_id = 17
+                WHERE user_id = $user_id_logged_in
                 AND Cat_ID = 'C1'
             ))
             OR (Cat_ID = 'C2' AND Cat_Score = (
                 SELECT Cat_Score
                 FROM user_category_scores
-                WHERE user_id = 17
+                WHERE user_id = $user_id_logged_in
                 AND Cat_ID = 'C2'
             ))
             OR (Cat_ID = 'C3' AND Cat_Score = (
                 SELECT Cat_Score
                 FROM user_category_scores
-                WHERE user_id = 17
+                WHERE user_id = $user_id_logged_in
                 AND Cat_ID = 'C3'
             ))
             OR (Cat_ID = 'C4' AND Cat_Score = (
                 SELECT Cat_Score
                 FROM user_category_scores
-                WHERE user_id = 17
+                WHERE user_id = $user_id_logged_in
                 AND Cat_ID = 'C4'
             ))
             GROUP BY user_id
