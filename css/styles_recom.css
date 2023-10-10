@@ -61,4 +61,34 @@
     margin: 10px 0;
 }
 
-  /* /////////////////////////////////หน้ารายละเอียด /////////////////////////////////////////*/
+  /* /////////////////////////////////แจ้งว่าไม่การแนะนำ /////////////////////////////////////////*/
+  .warning-message {
+    color: red; /* ตั้งสีข้อความเป็นสีแดง */
+    font-size: 24px; /* ตั้งขนาดตัวอักษร */
+    padding: 20px;
+    background-color: #fff; /* ตั้งพื้นหลังให้เป็นสีขาว */
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* เพิ่มเงาเส้นกรอบ */
+    position: relative; /* ตั้งค่า position เป็น relative เพื่อให้สามารถใส่ลูกเล่นแสงสีแดงได้ */
+}
+
+.red-flashing-light {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    animation: flash 1s infinite alternate;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+@keyframes flash {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

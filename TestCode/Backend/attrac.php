@@ -19,7 +19,11 @@
                     <!-- Content Wrapper. Contains page content -->
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-9">
+                    <form action="" method="get">
+                        <input type="text" name="search" placeholder="ค้นหา...">
+                        <input type="submit" value="ค้นหา">
+                    </form>
                     <p></p>
                     <a href="attrac.php?act=add" class="btn-info btn-sm"> เพิ่ม </a>
                     <p></p>
@@ -36,7 +40,7 @@
                     ?>
                 </div>
 
-            </div> 
+            </div>
         </div>
     </body>
 

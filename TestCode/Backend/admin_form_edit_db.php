@@ -24,13 +24,13 @@ mysqli_close($con); //ปิดการเชื่อมต่อ database
   
   if($result){
   echo "<script type='text/javascript'>";
-  echo "alert('Update');";
+  echo "alert('แก้ไข้ข้อมูลเสร็จสิ้น');";
   echo "window.location = 'admin.php'; ";
   echo "</script>";
   }
   else{
   echo "<script type='text/javascript'>";
-  echo "alert('Error back to Update again');";
+  echo "alert('เกิดข้อผิดพลาดกรุณาทำการอัปเดตอีกครั้ง!');";
   echo "</script>";
 }
 ?>

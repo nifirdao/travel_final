@@ -59,7 +59,7 @@ mysqli_close($con); //ปิดการเชื่อมต่อ database
 	}
 	else{
 	echo "<script type='text/javascript'>";
-	echo "alert('Error back to Update again');";
+	echo "alert('เกิดข้อผิดพลาดกรุณาทำการอัปเดตอีกครั้ง!');";
 	echo "</script>";
 }
 ?>

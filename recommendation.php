@@ -188,11 +188,14 @@ if ($stmt_attractions->rowCount() > 0) {
     }
 }
     else {
-        // ไม่พบข้อมูลในการค้นหา
-        echo "<script>alert('ไม่พบข้อมูล');</script>";
-        // เพิ่มโค้ดเพื่อเปลี่ยนเส้นทางไปยังหน้า "history2" หลังจากบันทึกคะแนน
-            echo "<script>window.location.href = '" . APPURL . "/users/history.php?id=" . $_SESSION['user_id'] . "';</script>";
-        exit();
+        // ไม่พบข้อมูลในการแนะนำ
+        echo '<div class="col-md-12 text-center">
+        <div class="warning-message">
+            <p>ไม่มีข้อมูลที่แนะนำ</p>
+            <p>โปรดเปลี่ยนแปลงลำดับคะแนนของท่าน</p>
+            <div class="red-flashing-light"></div>
+        </div>
+    </div>';
     }
 ?>
   </section>

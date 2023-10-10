@@ -14,13 +14,13 @@ $result = mysqli_query($con, $sql) or die ("Error in query: $sql " . mysqli_erro
   
   if($result){
   echo "<script type='text/javascript'>";
-  //echo "alert('Delete Succesfuly');";
+  echo "alert('ลบข้อมูลเสร็จสิ้น');";
   echo "window.location = 'admin.php'; ";
   echo "</script>";
   }
   else{
   echo "<script type='text/javascript'>";
-  echo "alert('Error back to delete again');";
+  echo "alert('เกิดข้อผิดพลาดกรุณาทำการลบอีกครั้ง!');";
   echo "</script>";
 }
 ?>

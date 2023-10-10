@@ -40,7 +40,7 @@ if ($result) {
 } else {
 
   echo "<script>";
-  echo "alert('ERROR!');";
+  echo "alert('เกิดข้อผิดพลาดกรุณาทำการเพิ่มอีกครั้ง!');";
   echo "window.location ='admin.php'; ";
   echo "</script>";
 }

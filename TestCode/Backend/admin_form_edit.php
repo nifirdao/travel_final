@@ -10,7 +10,7 @@ extract($row);
 ?>
 
 <?php include('h.php'); ?>
-<form name="admin" action="admin_form_add_db.php" method="POST" id="admin" class="form-horizontal">
+<form name="admin" action="admin_form_edit_db.php" method="POST" id="admin" class="form-horizontal">
 
 <input type="hidden" name="a_id" value="<?php echo $a_id; ?>">
 

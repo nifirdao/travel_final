@@ -2,13 +2,17 @@
 //1. เชื่อมต่อ database:
 include('condb.php');  //ไฟล์เชื่อมต่อกับ database ที่เราได้สร้างไว้ก่อนหน้าน้ี
 //2. query ข้อมูลจากตาราง 
-$query = "
-SELECT * FROM tbl_attraction as p 
-INNER JOIN tbl_province  as t ON p.province_id=t.province_id 
-ORDER BY p.attrac_id DESC" or die("Error:" . mysqli_error($con));
+$search = $_GET['search']; // รับค่าคำค้นหาจากฟอร์ม
+
+$query = "SELECT * FROM tbl_attraction as p 
+          INNER JOIN tbl_province as t ON p.province_id=t.province_id 
+          WHERE p.attrac_name LIKE '%$search%'
+          ORDER BY p.attrac_id DESC";
 //3.เก็บข้อมูลที่ query ออกมาไว้ในตัวแปร result .
 $result = mysqli_query($con, $query);
 //4 . แสดงข้อมูลที่ query ออกมา โดยใช้ตารางในการจัดข้อมูล:
+
+
 
 echo  ' <table class="table table-hover">';
   //หัวข้อตาราง 
@@ -16,10 +20,10 @@ echo  ' <table class="table table-hover">';
   //<td width=25%>detail</td>
     echo "<tr>
       <td width='5%'>id</td>
-      <td width=20%>province</td>
+      <td width=15%>province</td>
       <td width=30%>name</td>
       
-      <td width=25%>image</td>
+      <td width=30%>image</td>
 
       <td width=5%>edit</td>
       <td width=5%>delete</td>
@@ -29,7 +33,7 @@ echo  ' <table class="table table-hover">';
     echo "<td>" .$row["attrac_id"] .  "</td> ";
     echo "<td>" .$row["province_name"] .  "</td> ";
     echo "<td>" .$row["attrac_name"] .  "</td> ";
-    
+    //echo "<td>" .$row["attrac_detail"] .  "</td> ";
     echo "<td align=center>"."<img src='attrac_img/".$row["attrac_img"]."' width='100'>"."</td>";
 
     //แก้ไขข้อมูล

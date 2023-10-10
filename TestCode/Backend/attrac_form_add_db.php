@@ -57,7 +57,7 @@ echo "</script>";
 }
 else{
 echo "<script type='text/javascript'>";
-echo "alert('Error back to upload again');";
+echo "alert('เกิดข้อผิดพลาดกรุณาทำการเพิ่มอีกครั้ง!');";
 echo "window.location = 'attrac.php'; ";
 echo "</script>";
 }

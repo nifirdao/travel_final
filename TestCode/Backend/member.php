@@ -20,19 +20,11 @@
                 </div>
 
                 <div class="col-md-9">
-                    <p></p>
-                    <a href="member.php?act=add" class="btn-info btn-sm"> เพิ่ม </a>
-                    <p></p>
+                    
 
                     <?php
-                    $act = $_GET['act'];
-                    if ($act == 'add') {
-                        include('member_form_add.php');
-                    } elseif ($act == 'edit') {
-                        include('member_form_edit.php');
-                    } else {
-                        include('member_list.php');
-                    }
+                
+                    include('member_list.php');
                     ?>
                 </div>
 
