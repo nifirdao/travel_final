@@ -3,6 +3,7 @@
 <?php require "ConDb.php"; ?>
 
 
+ <!--**************************** หน้าดูสถานที่รวม ทั้งหมด!!! *****************************  -->
 
 <?php 
 $attrac_id = $_GET["id"];
@@ -49,7 +50,7 @@ $result = mysqli_query($con, $query);
       // แสดงข้อมูลในรูปแบบสถานที่ท่องเที่ยวที่ต้องการ
       echo '<div class="place">';
       echo '<div class="place-img-box">';
-      echo "<td align=center>"."<img src='http://localhost/travel/TestCode/backend/attrac_img/".$row["attrac_img"]."' width='100'>"."</td>";
+      echo "<td align=center>"."<img src='http://localhost/travel/Admin/backend/attrac_img/".$row["attrac_img"]."' width='100'>"."</td>";
      // echo "<td align=center>"."<img src='../Backend/attrac_img/".$row["attrac_img"]."' width='100'>"."</td>";
 
       //echo '<img src="' . $attrac_img . '" alt="' . $attrac_name . '">';

@@ -3,6 +3,10 @@ require "includes/header.php";
 require "config/config.php";
 require "ConDb.php";
 
+
+//**************************** หน้าโชว์ รายละเอียดเพิ่มเติม ข้อมูลสถานที่เที่ยว  *****************************  
+
+
 if (isset($_GET['attrac_id'])) {
     $attrac_id = $_GET['attrac_id'];
 

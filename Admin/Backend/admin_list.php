@@ -11,16 +11,7 @@ $result = mysqli_query($con, $query);
 $row_am = mysqli_fetch_assoc($result);
 ?>
 
-<script>
-  $(document).ready(function() {
-    $('#example1').DataTable({
-      "aaSorting": [
-        [0, 'ASC']
-      ],
-      //"lengthMenu":[[20,50, 100, -1], [20,50, 100,"All"]]
-    });
-  });
-</script>
+
 
 <table border="2" class="display table table-bordered" id="example1" align="center">
   <thead>
@@ -28,9 +19,7 @@ $row_am = mysqli_fetch_assoc($result);
       <th width="5%">id</th>
       <th>a_user</th>
       <th>a_name</th>
-      <th width="10%">password</th>
-      <th width="5%">edit</th>
-      <th width="5%">delete</th>
+      
     </tr>
   </thead>
   <?php do { ?>
@@ -39,9 +28,7 @@ $row_am = mysqli_fetch_assoc($result);
       <td><?php echo $row_am['a_id']; ?></td>
       <td><?php echo $row_am['a_user']; ?></td>
       <td><?php echo $row_am['a_name']; ?></td>
-      <td><a href="admin.php?act=rwd&ID=<?php echo $row_am['a_id']; ?>" class="btn btn-info btn-sm"> password </a> </td>
-      <td><a href="admin.php?act=edit&ID=<?php echo $row_am['a_id']; ?>" class="btn btn-warning btn-sm"> แก้ไข </a> </td>
-      <td><a href="admin_del_db.php?ID=<?php echo $row_am['a_id']; ?>" class='btn btn-danger btn-sm' onclick="return confirm('ยันยันการลบ')">ลบ</a> </td>
+     
     </tr>
 
   <?php } while ($row_am =  mysqli_fetch_assoc($result)); ?>

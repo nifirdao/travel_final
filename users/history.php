@@ -3,6 +3,11 @@ require "../includes/header.php";
 require "../config/config.php";
 require "../ConDb.php";
 
+
+// ********************  หน้าใส่ลำดับ category  **********************
+
+
+
 // ตรวจสอบว่าผู้ใช้ไม่ได้ล็อกอิน ถ้าไม่ได้ล็อกอินให้เปลี่ยนเส้นทางไปหน้า APPURL หรือที่ต้องการ
 if (!isset($_SESSION["username"])) {
     header("location: " . APPURL . "");
@@ -148,7 +153,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 <h5 style="font-style: italic; color: #22b3c1;">ลำดับหมวดหมู่สถานที่</h5> <!-- ตกแต่งตัวอักษรด้วย CSS -->
                             </div><br/>
                             <div class="col-md-12 text-center">
-                            <h6 style=" color:  #FF0000;">โปรดป้อนลำดับที่คุณสนใจในการท่องเที่ยว</h6>
+                            <h6 style=" color:  #FF0000;">เลือกลำดับหมวดหมู่สถานที่ท่องเที่ยวที่คุณชื่นชอบ</h6>
+                            <h6 style=" color:  #336699;">(1 = มากที่สุด, 2 = มาก, 3 = ปานกลาง, 4 = น้อย)</h6>
+
                             </div>
                             <div class="main-button"></div>
 

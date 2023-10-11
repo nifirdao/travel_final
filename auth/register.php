@@ -68,7 +68,7 @@ if (isset($_POST['submit'])) {
 
               <div class="col-md-12">
                 <fieldset>
-                  <label for="Date" class="form-label">Birthdate</label>
+                  <label for="Date" class="form-label">Birthday</label>
                   <input type="date" name="birthdate" class="birthdate" placeholder="birthdate" autocomplete="on" required>
                 </fieldset>
               </div>

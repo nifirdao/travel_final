@@ -2,6 +2,8 @@
 <?php require "config/config.php"; ?>
 
 
+ <!--**************************** หน้า Home   สไลด์รูปจังหวัด  *****************************  -->
+
 
   <!-- ***** Main Banner Area Start ***** -->
   <section id="section-1">
@@ -15,7 +17,7 @@
             <div class="main-caption">
               <h2>Take a Glimpse Into The Beautiful Province Of:</h2>
               <h1>YALA</h1>
-              <div class="border-button"><a href="about.php?province_id=1">Go There</a></div>
+              <div class="border-button"><a href="about.php?province_id=1">Go</a></div>
             </div>
             <div class="container">
               <div class="row">
@@ -31,7 +33,7 @@
             <div class="main-caption">
               <h2>Take a Glimpse Into The Beautiful Province Of:</h2>
               <h1>Pattani</h1>
-              <div class="border-button"><a href="about.php?province_id=2">Go There</a></div>
+              <div class="border-button"><a href="about.php?province_id=2">Go</a></div>
             </div>
             <div class="container">
               <div class="row">
@@ -47,7 +49,7 @@
             <div class="main-caption">
               <h2>Take a Glimpse Into The Beautiful Province Of:</h2>
               <h1>Narathiwat</h1>
-              <div class="border-button"><a href="about.php?province_id=3">Go There</a></div>
+              <div class="border-button"><a href="about.php?province_id=3">Go</a></div>
             </div>
             <div class="container">
               <div class="row">

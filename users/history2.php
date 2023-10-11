@@ -3,6 +3,10 @@ require "../includes/header.php";
 require "../config/config.php";
 require "../ConDb.php"; 
 
+// ********************  หน้าใส่สถานที่ที่เคยไป  **********************
+
+
+
 // ตรวจสอบว่าผู้ใช้ล็อกอินเรียบร้อยและมี User_ID ใน $_SESSION
 if (!isset($_SESSION["username"])) {
     header("location: " . APPURL . "");
@@ -12,17 +16,17 @@ if (!isset($_SESSION["username"])) {
 $query = "SELECT attrac_name, attrac_detail, attrac_img FROM tbl_attraction WHERE attrac_id = attrac_id";
 $result = mysqli_query($con, $query);
 
-
+//// ตรวจสอบว่าคำขอที่ถูกส่งมาเป็นแบบ POST หรือไม่
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $userID = $_SESSION["user_id"];
-
+    $userID = $_SESSION["user_id"];   // ดึงรหัสผู้ใช้จากเซสชัน (Session) ที่เก็บไว้
+    // ตรวจสอบว่ามีข้อมูลที่ถูกส่งมาผ่าน POST และเป็นอาร์เรย์
     if (isset($_POST["attraction"]) && is_array($_POST["attraction"])) {
-        $selectedAttractions = $_POST["attraction"];
-    
+        $selectedAttractions = $_POST["attraction"];   // รับข้อมูลสถานที่เที่ยวที่ผู้ใช้เลือกจากแบบฟอร์ม
+        // ตรวจสอบว่าผู้ใช้เลือกสถานที่เที่ยวไม่เกิน 5 แห่ง
         if (count($selectedAttractions) <= 5) {
             try {
                 $conn->beginTransaction();
-    
+                // วนลูปผ่านสถานที่เที่ยวที่ผู้ใช้เลือก
                 foreach ($selectedAttractions as $attractionID) {
                     // ดึงชื่อสถานที่เที่ยวจากตาราง tbl_attraction
                     $stmtSelectAttraction = $conn->prepare("SELECT attrac_name FROM tbl_attraction WHERE Attrac_ID = :attrac_id");
@@ -57,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     }
                 }
 
-                 // เพิ่มโค้ดเพื่อลบข้อมูลเก่าเมื่อผู้ใช้เลือกสถานที่เที่ยวเกิน 5 แห่ง **ไว้ลบข้อมูลที่เยอะตามมาในอนาคต
+                 // เพิ่มโค้ดเพื่อลบข้อมูลเก่าเมื่อผู้ใช้เลือกสถานที่เที่ยวเกิน 10 แห่ง **ไว้ลบข้อมูลที่เยอะตามมาในอนาคต
                  
                 // ตรวจสอบว่ามีข้อมูลในตาราง user_visited_places หรือไม่
                     $stmtSelect = $conn->prepare("SELECT * FROM user_visited_places WHERE User_ID = :user_id");
@@ -66,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $records = $stmtSelect->fetchAll(PDO::FETCH_ASSOC);
 
                     // ตรวจสอบจำนวนเร็คคอร์ด
-                    if (count($records) > 5) {
+                    if (count($records) > 10) {
                         // เรียงลำดับเร็คคอร์ดตาม Visit_ID ในลำดับล่าสุด
                         usort($records, function($a, $b) {
                             return $b['Visit_ID'] - $a['Visit_ID'];
@@ -127,7 +131,7 @@ try {
                 <div class="col-lg-12">
                     <form id="reservation-form" name="gs" method="POST" action="history2.php">
                         <div class="col-md-12">
-                            <h5>เลือกสถานที่เที่ยว (ไม่เกิน 5 แห่ง)</h5>
+                            <h5>เลือกสถานที่ท่องเที่ยวที่คุณเคยไปและชื่นชอบ (เลือกได้ครั้งละไม่เกิน 5 สถานที่)</h5>
                             <input type="text" id="searchAttraction" placeholder="ค้นหาสถานที่เที่ยว">
                             <div class="attraction-container">
                                 <?php foreach ($attractions as $attraction) { ?>
@@ -139,7 +143,7 @@ try {
                                                     $row = mysqli_fetch_array($result);
                                                     $attrac_name = $row['attrac_name'];
                                                     // แสดงสถานที่ท่องเที่ยวเป็นตัวเลือก
-                                                    echo "<img src='http://localhost/travel/TestCode/backend/attrac_img/".$row["attrac_img"]."' width='100'>";
+                                                    echo "<img src='http://localhost/travel/Admin/backend/attrac_img/".$row["attrac_img"]."' width='100'>";
                                                     echo '<h3>' . $attrac_name . '</h3>';    
                                                     ?>
                                             </div>

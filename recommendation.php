@@ -3,6 +3,10 @@ require "includes/header.php";
 require "config/config.php";
 require "ConDb.php";
 
+//**************************** หน้าโชว์ Recommendation  *****************************  
+
+
+
 // ตรวจสอบว่าผู้ใช้ล็อกอินเรียบร้อยและมี User_ID ใน $_SESSION
 if (!isset($_SESSION["username"])) {
     header("location: " . APPURL . "");
@@ -10,8 +14,6 @@ if (!isset($_SESSION["username"])) {
 }
 
 
-$query = "SELECT attrac_name, attrac_detail, attrac_img FROM tbl_attraction WHERE attrac_id = attrac_id";
-$result = mysqli_query($con, $query);
 
     // ตรวจสอบการล็อกอินของผู้ใช้และรับ user_id ของผู้ใช้ที่ล็อกอิน
     if (isset($_SESSION['user_id'])) {
@@ -75,7 +77,7 @@ $result = mysqli_query($con, $query);
             $user_id_match = $row['user_id'];
 
             // สร้างคำสั่ง SQL เพื่อค้นหา Attrac_ID ที่ไม่ซ้ำกันระหว่าง user_id_logged_in และ user_id_match
-            $sql_attractions = "SELECT a.attrac_id, b.attrac_name 
+            $sql_attractions = "SELECT a.attrac_id, b.attrac_name ,b.attrac_img
                                 FROM user_visited_places a
                                 INNER JOIN tbl_attraction b ON a.attrac_id = b.attrac_id
                                 WHERE a.user_id = :user_id_match 
@@ -84,6 +86,7 @@ $result = mysqli_query($con, $query);
                                     FROM user_visited_places
                                     WHERE user_id = :user_id_logged_in
                                 )";
+                        
 
             // เตรียมคำสั่ง SQL
             $stmt_attractions = $conn->prepare($sql_attractions);
@@ -170,15 +173,15 @@ if ($stmt_attractions->rowCount() > 0) {
     while ($attraction = $stmt_attractions->fetch(PDO::FETCH_ASSOC)) {
     $attrac_id = $attraction['attrac_id'];
     $attrac_name = $attraction['attrac_name'];
-    $row = mysqli_fetch_array($result);
+    $attrac_img = $attraction['attrac_img'];
     // แสดงข้อมูลสถานที่เที่ยว
     echo '<div class="place">';
     echo '<div class="place-img-box">';
-    echo "<td align=center>"."<img src='http://localhost/travel/TestCode/backend/attrac_img/".$row["attrac_img"]."' width='100'>"."</td>";
+    echo "<td align=center>"."<img src='http://localhost/travel/Admin/backend/attrac_img/". $attrac_img."' width='100'>"."</td>";
     echo '</div>';
     echo '<div class="place-info">';
     echo '<h3>' . $attrac_name . '</h3>';
-    echo '<p>' . $attrac_id . '</p>';
+    
 
     // เพิ่มปุ่ม "รายละเอียดเพิ่มเติม" และลิงก์ไปยัง search.php
     echo '<a href="search.php?attrac_id=' . $attrac_id . '" class="btn-details">รายละเอียดเพิ่มเติม</a>';

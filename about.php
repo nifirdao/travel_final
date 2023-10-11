@@ -2,13 +2,16 @@
 <?php require "config/config.php"; ?>
 <?php require "ConDb.php"; ?>
 
+ <!--****************************หน้าดูสถานที่เที่ยวแยกตามจังหวัด   province_id **************************** -->
+
 <?php 
+       //ใช้ isset() ซึ่งจะเป็นจริง (true) ถ้ามีการส่ง "province_id" ผ่าน URL.
       if (isset($_GET['province_id'])) {
           $id = $_GET['province_id'];
 
           $province = $conn->query("SELECT * FROM tbl_province WHERE province_id='$id'");
           $province->execute();
-
+          //ส่งค่าผลลัพธ์ออกมาในรูปแบบของอ็อบเจ็กต์ (object)
           $singleProvince = $province->fetch(PDO::FETCH_OBJ);
 
           // เช็คว่าพบข้อมูลจังหวัดหรือไม่
@@ -72,6 +75,8 @@ else {
 <!DOCTYPE html>
 <html lang="en">
 
+    <!-- ... ลิ้งค์ในการตกแต่ง ... -->
+
 <head>
   <link rel="stylesheet" type="text/css" href="css/styles_about.css">
     <!-- ... ตกแต่งกล่องค้นหา ... -->
@@ -111,7 +116,7 @@ if (isset($sql)) {
         // แสดงข้อมูลในรูปแบบที่ต้องการ
         echo '<div class="place">';
         echo '<div class="place-img-box">';
-        echo "<td align=center>"."<img src='http://localhost/travel/TestCode/backend/attrac_img/".$row["attrac_img"]."' width='100'>"."</td>";
+        echo "<td align=center>"."<img src='http://localhost/travel/Admin/backend/attrac_img/".$row["attrac_img"]."' width='100'>"."</td>";
         echo '</div>';                                
         echo '<div class="place-info">';
         echo '<h3>' . $attrac_name . '</h3>';

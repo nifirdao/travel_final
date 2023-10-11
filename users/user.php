@@ -1,6 +1,11 @@
  <!-- <link rel="stylesheet" href="style.css">  เปลี่ยนเป็นพาทที่เก็บไฟล์ CSS ของคุณ -->
 <?php require "../includes/header.php"; ?>
 <?php require "../config/config.php"; ?>
+
+
+ <!-- ********************** หน้า Edit Profile ********************** -->
+
+
 <?php 
 
     if (!isset($_SESSION["username"])) {

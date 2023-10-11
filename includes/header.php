@@ -69,8 +69,8 @@
                                 <!-- เก็บในโฟลเดอรฺ user -->
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/users/user.php?id=<?php echo $_SESSION['user_id']; ?>">Edit Profile</a></li>
-                                    <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/users/history.php?id=<?php echo $_SESSION['user_id']; ?>">History</a></li>
-                                    <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/users/history2.php?id=<?php echo $_SESSION['user_id']; ?>">Favourite</a></li>
+                                    <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/users/history.php?id=<?php echo $_SESSION['user_id']; ?>">Categories</a></li>
+                                    <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/users/history2.php?id=<?php echo $_SESSION['user_id']; ?>">Visited Places</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item text-black" href="<?php echo APPURL; ?>/auth/logout.php">Logout</a></li>
                                 </ul>
