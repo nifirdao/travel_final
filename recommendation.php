@@ -191,7 +191,7 @@ if ($stmt_attractions->rowCount() > 0) {
     }
 }
     else {
-        // ไม่พบข้อมูลในการแนะนำ
+        // ไม่พบข้อมูลในการแนะนำ   เงื่อนไข if  0
         echo '<div class="col-md-12 text-center">
         <div class="warning-message">
             <p>ไม่มีข้อมูลที่แนะนำ</p>

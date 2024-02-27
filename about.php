@@ -17,12 +17,12 @@
           // เช็คว่าพบข้อมูลจังหวัดหรือไม่
           if (!$singleProvince) {
               // หากไม่พบข้อมูลจังหวัดที่ตรงเงื่อนไข
-              header("Location: 404.php");
+              header("Location: error.php");
               exit;
           }
       } else {
           // หากไม่มี province_id ที่ส่งมา
-          header("Location: 404.php");
+          header("Location: error.php");
           exit;
       }
 ?>

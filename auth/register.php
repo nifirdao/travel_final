@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
       ":birthdate" => $birthdate,
       ":gender" => $gender,
     ]);
-
+    //echo "<script>alert('สมัครสำเร็จ');</script>";
 
     header("location: login.php");
   }
@@ -88,7 +88,7 @@ if (isset($_POST['submit'])) {
                   <!-- ปุ่มย้อนกลับอยู่ฝั่งซ้าย -->
                   <div class="col-lg-6">
                   <fieldset>
-                    <button class="secondary-button" onclick="goBack()">ย้อนกลับ</button>
+                    <button class="secondary-button" onclick="goBack()">Back</button>
                   </fieldset>
                 </div>
 

@@ -19,11 +19,11 @@
         $user = $user_result->fetch(PDO::FETCH_ASSOC);
 
         if (!$user) {
-            header("location: 404.php");
+            header("location: error.php");
             exit;
         }
     } else {
-        header("location: 404.php");
+        header("location: error.php");
         exit;
     }
 

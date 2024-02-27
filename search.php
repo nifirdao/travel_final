@@ -18,12 +18,12 @@ if (isset($_GET['attrac_id'])) {
     // เช็คว่าพบข้อมูลสถานที่ท่องเที่ยวหรือไม่
     if (!$singleAttraction) {
         // หากไม่พบข้อมูลสถานที่ท่องเที่ยวที่ตรงเงื่อนไข
-        header("Location: 404.php");
+        header("Location: error.php");
         exit;
     }
 } else {
     // หากไม่มี attrac_id ที่ส่งมา
-    header("Location: 404.php");
+    header("Location: error.php");
     exit;
 }
 ?>
